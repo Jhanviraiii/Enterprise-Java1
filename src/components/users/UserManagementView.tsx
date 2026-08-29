@@ -71,23 +71,26 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <UserCog className="w-6 h-6 text-rose-400" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <UserCog className="w-3.5 h-3.5" />
+            <span>RBAC SYSTEM ADMINISTRATION</span>
+          </div>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Administrator Control & System Audit Center
-          </h2>
-          <p className="text-xs text-slate-400">
-            Role-Based Access Control (RBAC), officer account provisioning, and system audit logs
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Role-Based Access Control (RBAC), officer account provisioning, and system audit logs.
           </p>
         </div>
 
         {activeTab === 'USERS' && (
           <button
             onClick={() => setIsAddUserModalOpen(true)}
-            className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-amber-500/20 flex items-center gap-2 transition-all cursor-pointer"
+            className="h-11 px-5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center gap-2 transition-all duration-200 cursor-pointer shrink-0"
           >
             <Plus className="w-4 h-4" />
             <span>Provision Officer Account</span>
@@ -96,24 +99,24 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
       </div>
 
       {/* Tabs & Search Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#111827] border border-[#1E293B] rounded-xl p-4 shadow-sm">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab('USERS')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 ${
               activeTab === 'USERS'
-                ? 'bg-amber-500 text-slate-950 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             Personnel User Roster ({users.length})
           </button>
           <button
             onClick={() => setActiveTab('AUDIT_LOGS')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 ${
               activeTab === 'AUDIT_LOGS'
-                ? 'bg-amber-500 text-slate-950 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             System Audit Logs ({auditLogs.length})
@@ -121,57 +124,57 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
         </div>
 
         <div className="relative max-w-xs w-full">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search records..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-1.5 bg-slate-950 border border-slate-800 focus:border-amber-500 rounded-xl text-xs text-slate-200 outline-none"
+            className="w-full pl-9 pr-4 py-2 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500/60 rounded-xl text-xs text-white outline-none transition-colors"
           />
         </div>
       </div>
 
       {/* Main Table Content */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="bg-[#111827] border border-[#1E293B] rounded-[14px] overflow-hidden shadow-sm">
         {activeTab === 'USERS' ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
             <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-950/80 border-b border-slate-800 text-[11px] font-mono text-slate-400 uppercase">
-                  <th className="p-4">Badge ID</th>
-                  <th className="p-4">Officer Name</th>
-                  <th className="p-4">Role</th>
-                  <th className="p-4">Department</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right">Actions</th>
+              <thead className="sticky top-0 z-10 bg-[#0F172A] border-b border-[#1E293B] shadow-sm">
+                <tr className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                  <th className="px-5 py-3.5">Badge ID</th>
+                  <th className="px-5 py-3.5">Officer Name</th>
+                  <th className="px-5 py-3.5">Role</th>
+                  <th className="px-5 py-3.5">Department</th>
+                  <th className="px-5 py-3.5">Status</th>
+                  <th className="px-5 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 text-xs">
+              <tbody className="divide-y divide-[#1E293B] text-xs">
                 {filteredUsers.map((u) => (
-                  <tr key={u.id} className="hover:bg-slate-800/50 transition-colors">
-                    <td className="p-4 font-mono font-bold text-amber-400">{u.badgeNumber}</td>
-                    <td className="p-4 font-semibold text-slate-100 flex items-center gap-2">
-                      <img src={u.avatarUrl} alt={u.name} className="w-6 h-6 rounded-full object-cover" />
-                      {u.name}
+                  <tr key={u.id} className="hover:bg-[#0F172A]/80 transition-colors duration-150 group">
+                    <td className="px-5 py-4 font-mono font-bold text-blue-400 whitespace-nowrap tracking-wide">{u.badgeNumber}</td>
+                    <td className="px-5 py-4 font-semibold text-white flex items-center gap-2.5">
+                      <img src={u.avatarUrl} alt={u.name} className="w-7 h-7 rounded-full object-cover border border-[#1E293B]" />
+                      <span className="group-hover:text-blue-400 transition-colors duration-150">{u.name}</span>
                     </td>
-                    <td className="p-4 font-mono text-slate-300">{u.role}</td>
-                    <td className="p-4 text-slate-400">{u.department}</td>
-                    <td className="p-4">
+                    <td className="px-5 py-4 font-mono text-slate-300">{u.role}</td>
+                    <td className="px-5 py-4 text-slate-400">{u.department}</td>
+                    <td className="px-5 py-4">
                       <span
-                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+                        className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border ${
                           u.status === 'ACTIVE'
-                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                            : 'bg-red-500/10 text-red-400 border-red-500/20'
+                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                            : 'bg-slate-800 text-slate-400 border-slate-700'
                         }`}
                       >
                         {u.status}
                       </span>
                     </td>
-                    <td className="p-4 text-right">
+                    <td className="px-5 py-4 text-right whitespace-nowrap">
                       <button
                         onClick={() => onToggleUserStatus(u.id)}
-                        className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs rounded-lg transition-colors"
+                        className="px-3.5 py-1.5 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-slate-300 font-semibold text-xs rounded-xl transition-colors duration-150 cursor-pointer"
                       >
                         Toggle Status
                       </button>
@@ -182,30 +185,30 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
             </table>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
             <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-950/80 border-b border-slate-800 text-[11px] font-mono text-slate-400 uppercase">
-                  <th className="p-4">Timestamp</th>
-                  <th className="p-4">User & Badge</th>
-                  <th className="p-4">Action</th>
-                  <th className="p-4">Module</th>
-                  <th className="p-4">Audit Details</th>
-                  <th className="p-4 font-mono">IP Address</th>
+              <thead className="sticky top-0 z-10 bg-[#0F172A] border-b border-[#1E293B] shadow-sm">
+                <tr className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                  <th className="px-5 py-3.5">Timestamp</th>
+                  <th className="px-5 py-3.5">User & Badge</th>
+                  <th className="px-5 py-3.5">Action</th>
+                  <th className="px-5 py-3.5">Module</th>
+                  <th className="px-5 py-3.5">Audit Details</th>
+                  <th className="px-5 py-3.5 font-mono">IP Address</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 text-xs">
+              <tbody className="divide-y divide-[#1E293B] text-xs">
                 {filteredLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-800/50 transition-colors">
-                    <td className="p-4 font-mono text-slate-400 whitespace-nowrap">{log.timestamp}</td>
-                    <td className="p-4 font-semibold text-slate-200">
-                      <div>{log.userName}</div>
-                      <div className="text-[10px] font-mono text-slate-500">{log.badgeNumber}</div>
+                  <tr key={log.id} className="hover:bg-[#0F172A]/80 transition-colors duration-150">
+                    <td className="px-5 py-4 font-mono text-slate-400 whitespace-nowrap">{log.timestamp}</td>
+                    <td className="px-5 py-4 font-semibold text-white">
+                      <div className="font-medium text-white">{log.userName}</div>
+                      <div className="text-[10px] font-mono text-slate-400 mt-0.5">{log.badgeNumber}</div>
                     </td>
-                    <td className="p-4 font-mono font-bold text-amber-400">{log.action}</td>
-                    <td className="p-4 font-mono text-slate-300">{log.module}</td>
-                    <td className="p-4 text-slate-300 max-w-sm">{log.details}</td>
-                    <td className="p-4 font-mono text-slate-500">{log.ipAddress}</td>
+                    <td className="px-5 py-4 font-mono font-bold text-blue-400">{log.action}</td>
+                    <td className="px-5 py-4 font-mono text-slate-300">{log.module}</td>
+                    <td className="px-5 py-4 text-slate-300 max-w-sm leading-relaxed">{log.details}</td>
+                    <td className="px-5 py-4 font-mono text-slate-400">{log.ipAddress}</td>
                   </tr>
                 ))}
               </tbody>
@@ -216,40 +219,40 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
 
       {/* Provision User Modal */}
       {isAddUserModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
-            <h3 className="text-base font-bold text-slate-100">Provision New Officer Account</h3>
-            <form onSubmit={handleAddUserSubmit} className="space-y-3 text-xs">
-              <div>
-                <label className="text-slate-400 font-mono mb-1 block">OFFICER FULL NAME</label>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-5">
+            <h3 className="text-base font-bold text-white tracking-tight">Provision New Officer Account</h3>
+            <form onSubmit={handleAddUserSubmit} className="space-y-4 text-xs">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">OFFICER FULL NAME *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Officer James Miller"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full h-11 px-3.5 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-white outline-none transition-all duration-200"
                 />
               </div>
 
-              <div>
-                <label className="text-slate-400 font-mono mb-1 block">DEPARTMENT EMAIL</label>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">DEPARTMENT EMAIL *</label>
                 <input
                   type="email"
                   required
                   placeholder="j.miller@metropolice.gov"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full h-11 px-3.5 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-white outline-none transition-all duration-200 font-mono"
                 />
               </div>
 
-              <div>
-                <label className="text-slate-400 font-mono mb-1 block">SYSTEM ROLE</label>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">SYSTEM ROLE *</label>
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value as UserRole)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none cursor-pointer"
+                  className="w-full h-11 px-3.5 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-white outline-none cursor-pointer transition-all duration-200"
                 >
                   <option value="ADMIN">Administrator</option>
                   <option value="POLICE_OFFICER">Police Officer</option>
@@ -258,29 +261,29 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
                 </select>
               </div>
 
-              <div>
-                <label className="text-slate-400 font-mono mb-1 block">ASSIGNED DIVISION</label>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">ASSIGNED DIVISION *</label>
                 <input
                   type="text"
                   required
                   placeholder="Central Patrol Division"
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full h-11 px-3.5 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-white outline-none transition-all duration-200"
                 />
               </div>
 
-              <div className="pt-2 flex justify-end gap-2">
+              <div className="pt-3 border-t border-[#1E293B] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsAddUserModalOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 font-semibold rounded-lg"
+                  className="h-11 px-5 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-slate-300 font-semibold rounded-xl transition-all duration-200 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg"
+                  className="h-11 px-6 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-sm transition-all duration-200 cursor-pointer"
                 >
                   Create Account
                 </button>
@@ -292,3 +295,4 @@ export const UserManagementView: React.FC<UserManagementViewProps> = ({
     </div>
   );
 };
+

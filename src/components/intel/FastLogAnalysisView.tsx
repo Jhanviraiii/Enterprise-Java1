@@ -276,34 +276,33 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
   };
 
   const threatBadges = {
-    SQL_INJECTION: 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse',
-    BRUTE_FORCE: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
-    DIRECTORY_TRAVERSAL: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40',
-    SCANNER_RECON: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40',
-    NONE: 'bg-slate-800 text-slate-500',
+    SQL_INJECTION: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    BRUTE_FORCE: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    DIRECTORY_TRAVERSAL: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    SCANNER_RECON: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    NONE: 'bg-slate-800 text-slate-400 border-slate-700',
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-[11px] font-mono font-semibold text-amber-400 mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <Terminal className="w-3.5 h-3.5" />
             <span>REAL-TIME FORENSIC LOG PARSING ENGINE</span>
           </div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <Terminal className="w-6 h-6 text-amber-400" />
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Fast Forensic Log Analysis Tool
-          </h2>
-          <p className="text-xs text-slate-400">
-            Instant regex filtering, automated SQL injection & brute-force detection, and IP tracing integration
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Instant regex filtering, automated SQL injection & brute-force threat detection, and IP tracing integration.
           </p>
         </div>
 
         <button
           onClick={() => setIsIngestModalOpen(true)}
-          className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-amber-500/20 flex items-center gap-2 transition-all cursor-pointer"
+          className="h-11 px-5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center gap-2 transition-all duration-200 cursor-pointer shrink-0"
         >
           <UploadCloud className="w-4 h-4" />
           <span>Ingest Raw Server Logs</span>
@@ -319,16 +318,16 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
             <div
               key={key}
               onClick={() => handleSelectDataset(key)}
-              className={`p-4 rounded-xl border cursor-pointer transition-all space-y-1.5 ${
+              className={`p-4 rounded-xl border cursor-pointer transition-all duration-200 space-y-1.5 ${
                 isSelected
-                  ? 'bg-slate-900 border-amber-500 shadow-xl ring-1 ring-amber-500/30'
-                  : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                  ? 'bg-[#111827] border-blue-500 shadow-sm ring-1 ring-blue-500/30'
+                  : 'bg-[#111827] border-[#1E293B] hover:border-slate-700'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-100 font-mono">{ds.title}</span>
+                <span className="text-xs font-bold text-white font-mono">{ds.title}</span>
                 {isSelected && (
-                  <span className="text-[10px] font-mono text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-md border border-blue-500/20 font-semibold">
                     ACTIVE DATASET
                   </span>
                 )}
@@ -340,38 +339,38 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
       </div>
 
       {/* Real-time KPI Metrics Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-          <span className="text-[10px] font-mono text-slate-500 uppercase">TOTAL LOG RECORDS</span>
-          <div className="text-xl font-mono font-bold text-slate-100">{metrics.total}</div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="p-4 bg-[#111827] border border-[#1E293B] rounded-xl space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">TOTAL LOG RECORDS</span>
+          <div className="text-2xl font-mono font-bold text-white">{metrics.total}</div>
         </div>
-        <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-          <span className="text-[10px] font-mono text-slate-500 uppercase">DETECTED THREAT PAYLOADS</span>
-          <div className="text-xl font-mono font-bold text-red-400 flex items-center gap-1">
-            <AlertOctagon className="w-4 h-4 text-red-400" />
+        <div className="p-4 bg-[#111827] border border-[#1E293B] rounded-xl space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">DETECTED THREAT PAYLOADS</span>
+          <div className="text-2xl font-mono font-bold text-blue-400 flex items-center gap-1.5">
+            <AlertOctagon className="w-4 h-4 text-blue-400" />
             {metrics.threatCount}
           </div>
         </div>
-        <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-          <span className="text-[10px] font-mono text-slate-500 uppercase">UNIQUE SOURCE IPs</span>
-          <div className="text-xl font-mono font-bold text-cyan-400">{metrics.uniqueIps}</div>
+        <div className="p-4 bg-[#111827] border border-[#1E293B] rounded-xl space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">UNIQUE SOURCE IPs</span>
+          <div className="text-2xl font-mono font-bold text-blue-400">{metrics.uniqueIps}</div>
         </div>
-        <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-          <span className="text-[10px] font-mono text-slate-500 uppercase">ERROR RATE (4xx/5xx)</span>
-          <div className="text-xl font-mono font-bold text-amber-400">{metrics.errorRate}%</div>
+        <div className="p-4 bg-[#111827] border border-[#1E293B] rounded-xl space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">ERROR RATE (4xx/5xx)</span>
+          <div className="text-2xl font-mono font-bold text-white">{metrics.errorRate}%</div>
         </div>
       </div>
 
       {/* Search & Multi-Filter Control Bar */}
-      <div className="grid sm:grid-cols-12 gap-3 bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+      <div className="grid sm:grid-cols-12 gap-3 bg-[#111827] border border-[#1E293B] rounded-xl p-4 shadow-sm">
         <div className="sm:col-span-6 relative">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search IP, Path keyword, Payload, or User-Agent..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 focus:border-amber-500 rounded-xl text-xs font-mono text-slate-200 outline-none"
+            className="w-full pl-9 pr-4 py-2 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500/60 rounded-xl text-xs font-mono text-white outline-none transition-colors"
           />
         </div>
 
@@ -379,7 +378,7 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-300 outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs font-mono text-slate-300 outline-none cursor-pointer"
           >
             <option value="ALL">All Status Codes</option>
             <option value="200">200 OK (Success)</option>
@@ -393,7 +392,7 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
           <select
             value={threatFilter}
             onChange={(e) => setThreatFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-300 outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs font-mono text-slate-300 outline-none cursor-pointer"
           >
             <option value="ALL">All Threat Categories</option>
             <option value="SQL_INJECTION">SQL Injection</option>
@@ -405,10 +404,10 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
       </div>
 
       {/* Main Interactive Log Viewer Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
-          <span className="text-xs font-mono font-bold text-amber-400 flex items-center gap-2">
-            <Terminal className="w-4 h-4" />
+      <div className="bg-[#111827] border border-[#1E293B] rounded-2xl overflow-hidden shadow-sm">
+        <div className="p-4 border-b border-[#1E293B] flex items-center justify-between bg-[#0F172A]">
+          <span className="text-xs font-mono font-bold text-blue-400 flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-blue-400" />
             FILTERED LOG STREAM ({filteredLogs.length} ENTRIES)
           </span>
 
@@ -418,72 +417,68 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
               setStatusFilter('ALL');
               setThreatFilter('ALL');
             }}
-            className="text-[11px] font-mono text-slate-400 hover:text-slate-200 flex items-center gap-1"
+            className="text-[11px] font-mono text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
           >
             <RefreshCw className="w-3 h-3" /> Reset Filters
           </button>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
           <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-950/80 border-b border-slate-800 text-[11px] font-mono text-slate-400 uppercase">
-                <th className="p-3">Timestamp</th>
-                <th className="p-3">Source IP</th>
-                <th className="p-3">Method & Status</th>
-                <th className="p-3">Path / Requested Resource</th>
-                <th className="p-3">Threat Classification</th>
-                <th className="p-3 text-right">Action</th>
+            <thead className="sticky top-0 z-10 bg-[#0F172A] border-b border-[#1E293B] shadow-sm">
+              <tr className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                <th className="px-5 py-3.5">Timestamp</th>
+                <th className="px-5 py-3.5">Source IP</th>
+                <th className="px-5 py-3.5">Method & Status</th>
+                <th className="px-5 py-3.5">Path / Requested Resource</th>
+                <th className="px-5 py-3.5">Threat Classification</th>
+                <th className="px-5 py-3.5 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/80 text-xs font-mono">
+            <tbody className="divide-y divide-[#1E293B] text-xs font-mono">
               {filteredLogs.map((log) => (
                 <tr
                   key={log.id}
-                  className={`hover:bg-slate-800/50 transition-colors ${
-                    log.threatType !== 'NONE' ? 'bg-red-500/5' : ''
-                  }`}
+                  className="hover:bg-[#0F172A]/80 transition-colors duration-150 group"
                 >
-                  <td className="p-3 text-slate-400 whitespace-nowrap">{log.timestamp}</td>
-                  <td className="p-3">
+                  <td className="px-5 py-4 text-slate-400 whitespace-nowrap">{log.timestamp}</td>
+                  <td className="px-5 py-4">
                     <button
                       onClick={() => onNavigateToIpTrace && onNavigateToIpTrace(log.ip)}
-                      className="font-bold text-cyan-400 hover:text-cyan-300 hover:underline flex items-center gap-1"
+                      className="font-bold text-blue-400 hover:text-blue-300 hover:underline flex items-center gap-1 cursor-pointer"
                       title="Launch IP Location Trace"
                     >
-                      <Globe className="w-3 h-3 text-cyan-400" />
+                      <Globe className="w-3.5 h-3.5 text-blue-400" />
                       {log.ip}
                     </button>
                   </td>
-                  <td className="p-3">
+                  <td className="px-5 py-4">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-slate-200">{log.method}</span>
+                      <span className="font-bold text-white">{log.method}</span>
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                        className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${
                           log.statusCode === 200
-                            ? 'bg-emerald-500/20 text-emerald-400'
-                            : log.statusCode === 401 || log.statusCode === 403
-                            ? 'bg-amber-500/20 text-amber-400'
-                            : 'bg-red-500/20 text-red-400'
+                            ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                            : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                         }`}
                       >
                         {log.statusCode}
                       </span>
                     </div>
                   </td>
-                  <td className="p-3 text-slate-200 max-w-md truncate">
-                    <div className="font-semibold">{log.path}</div>
-                    {log.notes && <div className="text-[10px] text-red-400 mt-0.5">{log.notes}</div>}
+                  <td className="px-5 py-4 text-slate-200 max-w-md truncate">
+                    <div className="font-semibold text-white group-hover:text-blue-400 transition-colors duration-150">{log.path}</div>
+                    {log.notes && <div className="text-[10px] text-blue-400 mt-0.5">{log.notes}</div>}
                   </td>
-                  <td className="p-3">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${threatBadges[log.threatType]}`}>
+                  <td className="px-5 py-4">
+                    <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-md border ${threatBadges[log.threatType]}`}>
                       {log.threatType.replace(/_/g, ' ')}
                     </span>
                   </td>
-                  <td className="p-3 text-right">
+                  <td className="px-5 py-4 text-right whitespace-nowrap">
                     <button
                       onClick={() => onNavigateToIpTrace && onNavigateToIpTrace(log.ip)}
-                      className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-lg flex items-center gap-1 transition-colors ml-auto"
+                      className="px-3.5 py-1.5 bg-[#0F172A] hover:bg-blue-600/10 border border-[#1E293B] text-blue-400 font-semibold text-xs rounded-xl flex items-center gap-1 transition-colors duration-150 ml-auto cursor-pointer"
                     >
                       Trace IP →
                     </button>
@@ -497,16 +492,16 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
 
       {/* Raw Log Ingestion Modal */}
       {isIngestModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
-            <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-              <UploadCloud className="w-5 h-5 text-amber-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-5">
+            <h3 className="text-base font-bold text-white flex items-center gap-2 tracking-tight">
+              <UploadCloud className="w-5 h-5 text-blue-400" />
               Ingest Raw Server Access Logs
             </h3>
-            <form onSubmit={handleIngestRawLogs} className="space-y-3 text-xs">
-              <div>
-                <label className="text-slate-400 font-mono mb-1 block">
-                  PASTE LOG LINES (APACHE, NGINX, SSH, OR FIREWALL FORMAT)
+            <form onSubmit={handleIngestRawLogs} className="space-y-4 text-xs">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
+                  PASTE LOG LINES (APACHE, NGINX, SSH, OR FIREWALL FORMAT) *
                 </label>
                 <textarea
                   rows={6}
@@ -514,21 +509,21 @@ export const FastLogAnalysisView: React.FC<FastLogAnalysisViewProps> = ({
                   placeholder={`198.51.100.42 - - [30/Jul/2026:22:45:01 +0000] "POST /api/v1/auth/login HTTP/1.1" 401 342\n185.220.101.5 - - [30/Jul/2026:22:45:10 +0000] "GET /etc/passwd HTTP/1.1" 403 180`}
                   value={rawLogInput}
                   onChange={(e) => setRawLogInput(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 font-mono text-xs outline-none resize-none"
+                  className="w-full p-3.5 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl text-white font-mono text-xs outline-none resize-none transition-all duration-200"
                 />
               </div>
 
-              <div className="pt-2 flex justify-end gap-2">
+              <div className="pt-3 border-t border-[#1E293B] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsIngestModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 font-semibold rounded-xl"
+                  className="h-11 px-5 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-slate-300 font-semibold rounded-xl transition-all duration-200 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg"
+                  className="h-11 px-6 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-sm transition-all duration-200 cursor-pointer"
                 >
                   Parse & Analyze Logs
                 </button>

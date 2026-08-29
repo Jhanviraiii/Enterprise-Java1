@@ -111,23 +111,26 @@ export const ReportGenerationView: React.FC<ReportGenerationViewProps> = ({
   ];
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <Printer className="w-6 h-6 text-amber-400" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <Printer className="w-3.5 h-3.5" />
+            <span>OFFICIAL REPORT GENERATOR</span>
+          </div>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Official Law Enforcement PDF Report Generator
-          </h2>
-          <p className="text-xs text-slate-400">
-            Generate filterable police dossiers with executive statistics and export as high-resolution PDF documents
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Generate filterable police dossiers with executive statistics and export as high-resolution PDF documents.
           </p>
         </div>
 
         <button
           onClick={handleExportPdf}
           disabled={isExporting}
-          className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-amber-500/20 flex items-center gap-2 transition-all cursor-pointer"
+          className="h-11 px-5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center gap-2 transition-all duration-200 cursor-pointer disabled:opacity-50 shrink-0"
         >
           <Download className={`w-4 h-4 ${isExporting ? 'animate-bounce' : ''}`} />
           <span>{isExporting ? 'Generating PDF...' : 'Download Official PDF Report'}</span>
@@ -138,7 +141,7 @@ export const ReportGenerationView: React.FC<ReportGenerationViewProps> = ({
       <div className="grid lg:grid-cols-12 gap-6 items-start">
         {/* Presets Selector (5 cols) */}
         <div className="lg:col-span-5 space-y-3">
-          <span className="text-xs font-mono font-semibold uppercase text-slate-400">
+          <span className="text-xs font-mono font-medium uppercase tracking-wider text-slate-400">
             Select Report Template:
           </span>
 
@@ -149,15 +152,15 @@ export const ReportGenerationView: React.FC<ReportGenerationViewProps> = ({
                 <div
                   key={preset.id}
                   onClick={() => setReportType(preset.id)}
-                  className={`p-4 rounded-xl border cursor-pointer transition-all space-y-1.5 ${
+                  className={`p-4 rounded-[14px] border cursor-pointer transition-all duration-200 space-y-1.5 ${
                     isSelected
-                      ? 'bg-slate-900 border-amber-500 shadow-xl ring-1 ring-amber-500/30'
-                      : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                      ? 'bg-[#111827] border-blue-500 shadow-md ring-1 ring-blue-500/30'
+                      : 'bg-[#111827] border-[#1E293B] hover:border-slate-700 hover:-translate-y-0.5'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-slate-100">{preset.title}</h4>
-                    {isSelected && <CheckCircle className="w-4 h-4 text-amber-400" />}
+                    <h4 className="text-xs font-bold text-white tracking-tight">{preset.title}</h4>
+                    {isSelected && <CheckCircle className="w-4 h-4 text-blue-400" />}
                   </div>
                   <p className="text-[11px] text-slate-400 leading-normal">{preset.desc}</p>
                 </div>
@@ -167,38 +170,38 @@ export const ReportGenerationView: React.FC<ReportGenerationViewProps> = ({
         </div>
 
         {/* Live Report Document Preview (7 cols) */}
-        <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
-          <div className="border-b border-slate-800 pb-3 flex items-center justify-between">
-            <span className="text-xs font-mono font-bold text-amber-400">PDF REPORT DOCUMENT PREVIEW</span>
-            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+        <div className="lg:col-span-7 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 shadow-sm space-y-6">
+          <div className="border-b border-[#1E293B] pb-3 flex items-center justify-between">
+            <span className="text-xs font-mono font-bold text-blue-400">PDF REPORT DOCUMENT PREVIEW</span>
+            <span className="text-[10px] font-mono font-semibold text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-md border border-blue-500/20">
               OFFICIAL POLICE DOSSIER
             </span>
           </div>
 
-          <div className="p-5 bg-slate-950 border border-slate-800 rounded-xl space-y-4 font-mono text-xs text-slate-300">
-            <div className="border-b border-slate-800 pb-3 flex justify-between">
+          <div className="p-5 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-4 font-mono text-xs text-slate-300">
+            <div className="border-b border-[#1E293B] pb-3 flex justify-between">
               <div>
-                <div className="font-bold text-slate-100 text-sm">SMART CRIME ANALYTICS PORTAL (SCAP)</div>
+                <div className="font-bold text-white text-sm">SMART CRIME ANALYTICS PORTAL (SCAP)</div>
                 <div className="text-[10px] text-slate-400">METROPOLITAN LAW ENFORCEMENT & FORENSIC COMMAND</div>
               </div>
-              <div className="text-right text-[10px] text-amber-400">
+              <div className="text-right text-[10px] text-blue-400 font-semibold">
                 CONFIDENTIAL / EYES ONLY
               </div>
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] text-slate-500">ISSUING OFFICER:</span>
-              <div className="font-bold text-slate-100">{currentUser.name} (BADGE #{currentUser.badgeNumber})</div>
+              <span className="text-[10px] text-slate-400">ISSUING OFFICER:</span>
+              <div className="font-bold text-white">{currentUser.name} (BADGE #{currentUser.badgeNumber})</div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <span className="text-[10px] text-slate-500">SAMPLE RECORD ROWS TO BE EXPORTED:</span>
+            <div className="space-y-2 pt-2 border-t border-[#1E293B]">
+              <span className="text-[10px] text-slate-400">SAMPLE RECORD ROWS TO BE EXPORTED:</span>
               <div className="space-y-1 text-[11px]">
                 {firs.slice(0, 3).map((f) => (
-                  <div key={f.id} className="p-2 bg-slate-900 rounded border border-slate-800 flex justify-between">
-                    <span className="text-amber-300 font-bold">{f.firNumber}</span>
+                  <div key={f.id} className="p-2.5 bg-[#111827] rounded-lg border border-[#1E293B] flex justify-between">
+                    <span className="text-blue-400 font-bold">{f.firNumber}</span>
                     <span className="text-slate-300 truncate max-w-[200px]">{f.title}</span>
-                    <span className="text-slate-500">{f.priority}</span>
+                    <span className="text-slate-400">{f.priority}</span>
                   </div>
                 ))}
               </div>
@@ -208,7 +211,7 @@ export const ReportGenerationView: React.FC<ReportGenerationViewProps> = ({
           <button
             onClick={handleExportPdf}
             disabled={isExporting}
-            className="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer disabled:opacity-50"
           >
             <Download className="w-4 h-4" />
             <span>Generate & Export PDF Document</span>
@@ -218,3 +221,4 @@ export const ReportGenerationView: React.FC<ReportGenerationViewProps> = ({
     </div>
   );
 };
+

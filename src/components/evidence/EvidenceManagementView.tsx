@@ -94,28 +94,27 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-[11px] font-mono font-semibold text-purple-400 mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>REAL WEB CRYPTO SHA-256 HASH VERIFICATION</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <Lock className="w-3.5 h-3.5" />
+            <span>DIGITAL FORENSIC EVIDENCE VAULT</span>
           </div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <Lock className="w-6 h-6 text-purple-400" />
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Digital Evidence & Chain of Custody Vault
-          </h2>
-          <p className="text-xs text-slate-400">
-            Immutable file hashing integrity verification and timestamped custody tracking
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Immutable Web Crypto SHA-256 checksum hashing, tamper-proof verification, and timestamped chain of custody tracking.
           </p>
         </div>
       </div>
 
       {/* Drag & Drop File Upload Area */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
-        <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-          <UploadCloud className="w-5 h-5 text-purple-400" />
+      <div className="bg-[#111827] border border-[#1E293B] rounded-2xl p-6 shadow-sm space-y-4">
+        <h3 className="text-sm font-bold text-white flex items-center gap-2">
+          <UploadCloud className="w-5 h-5 text-blue-400" />
           Upload Digital Evidence for Live SHA-256 Integrity Verification
         </h3>
 
@@ -132,10 +131,10 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
               handleFileUpload(e.dataTransfer.files[0]);
             }
           }}
-          className={`border-2 border-dashed rounded-xl p-8 text-center flex flex-col items-center justify-center cursor-pointer transition-all ${
+          className={`border-2 border-dashed rounded-xl p-8 text-center flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${
             dragActive
-              ? 'border-purple-500 bg-purple-500/10 scale-[1.01]'
-              : 'border-slate-800 hover:border-slate-700 bg-slate-950/60'
+              ? 'border-blue-500 bg-blue-500/10 scale-[1.01]'
+              : 'border-[#1E293B] hover:border-slate-700 bg-[#0F172A]'
           }`}
         >
           <input
@@ -147,10 +146,10 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
               }
             }}
           />
-          <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-3">
+          <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-3">
             <FileCheck className="w-6 h-6" />
           </div>
-          <p className="text-xs font-semibold text-slate-200">
+          <p className="text-xs font-semibold text-white">
             Drag and drop CCTV video clips, fingerprint scans, or digital forensic dumps here
           </p>
           <p className="text-[11px] text-slate-400 mt-1">
@@ -158,17 +157,17 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
           </p>
 
           {isUploading && (
-            <div className="mt-3 text-xs font-mono text-purple-400 animate-pulse">
+            <div className="mt-3 text-xs font-mono text-blue-400 animate-pulse">
               COMPUTING REAL SHA-256 CHECKSUM HASH...
             </div>
           )}
 
           {computedHash && (
-            <div className="mt-4 p-3 bg-slate-900 border border-purple-500/40 rounded-xl max-w-xl text-left font-mono">
-              <span className="text-[10px] text-emerald-400 font-bold block flex items-center gap-1">
+            <div className="mt-4 p-3 bg-[#111827] border border-blue-500/40 rounded-xl max-w-xl text-left font-mono">
+              <span className="text-[10px] text-blue-400 font-bold block flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" /> SHA-256 CHECKSUM COMPUTED SUCCESSFULLY:
               </span>
-              <p className="text-[11px] text-slate-200 break-all mt-1">{computedHash}</p>
+              <p className="text-[11px] text-white break-all mt-1">{computedHash}</p>
             </div>
           )}
         </label>
@@ -179,51 +178,51 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
         {evidenceItems.map((item) => (
           <div
             key={item.id}
-            className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-xl space-y-4 flex flex-col justify-between transition-all"
+            className="bg-[#111827] border border-[#1E293B] hover:border-slate-700 rounded-[14px] p-5 shadow-sm hover:shadow-md space-y-4 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 group"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold text-purple-400">{item.evidenceCode}</span>
-                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded border bg-purple-500/10 text-purple-400 border-purple-500/30">
+                <span className="text-xs font-mono font-bold text-blue-400 tracking-wide">{item.evidenceCode}</span>
+                <span className="text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">
                   {item.type}
                 </span>
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-slate-100 leading-snug">{item.title}</h4>
+                <h4 className="text-sm font-bold text-white leading-snug tracking-tight group-hover:text-blue-400 transition-colors duration-200">{item.title}</h4>
                 <div className="text-[11px] font-mono text-slate-400 mt-1">
                   Size: {item.fileSize} • Case: {item.caseNumber}
                 </div>
               </div>
 
               {/* SHA-256 Box */}
-              <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl space-y-1 font-mono">
-                <span className="text-[10px] text-slate-500 block">SHA-256 CHECKSUM HASH:</span>
+              <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1 font-mono">
+                <span className="text-[10px] text-slate-400 block uppercase tracking-wider">SHA-256 CHECKSUM HASH:</span>
                 <p className="text-[10px] text-slate-300 break-all leading-tight">
                   {item.sha256Hash}
                 </p>
               </div>
 
-              <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center gap-1.5 text-xs text-blue-400 font-semibold">
+                <ShieldCheck className="w-4 h-4 text-blue-400" />
                 <span>INTEGRITY VERIFIED (TAMPER FREE)</span>
               </div>
             </div>
 
             {/* Action Footer */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <div className="pt-3 border-t border-[#1E293B] flex items-center justify-between">
               <button
                 onClick={() => handleVerifyIntegrity(item)}
-                className="px-2.5 py-1 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-lg text-xs font-medium transition-colors"
+                className="px-3 py-1.5 bg-[#0F172A] hover:bg-blue-600/10 text-blue-400 border border-[#1E293B] rounded-xl text-xs font-medium transition-colors duration-200 cursor-pointer"
               >
                 Re-Verify Hash
               </button>
 
               <button
                 onClick={() => setSelectedItem(item)}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1 transition-colors"
+                className="px-3.5 py-1.5 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors duration-200 cursor-pointer"
               >
-                <Clock className="w-3.5 h-3.5 text-amber-400" />
+                <Clock className="w-3.5 h-3.5 text-blue-400" />
                 Chain of Custody ({item.custodyChain.length})
               </button>
             </div>
@@ -233,30 +232,30 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
 
       {/* Custody Chain History Modal */}
       {selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-5 border-b border-[#1E293B] flex items-center justify-between bg-[#0F172A]">
               <div>
-                <span className="text-xs font-mono font-bold text-purple-400">{selectedItem.evidenceCode}</span>
-                <h3 className="text-lg font-bold text-slate-100">{selectedItem.title}</h3>
+                <span className="text-xs font-mono font-bold text-blue-400">{selectedItem.evidenceCode}</span>
+                <h3 className="text-lg font-bold text-white">{selectedItem.title}</h3>
               </div>
               <button
                 onClick={() => setSelectedItem(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800"
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="p-6 overflow-y-auto space-y-6 text-xs">
-              <div className="flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <div className="flex items-center justify-between p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl">
                 <div>
-                  <span className="text-[10px] font-mono text-slate-500 block">COLLECTED BY</span>
-                  <span className="font-bold text-slate-200">{selectedItem.collectedBy}</span>
+                  <span className="text-[10px] font-mono text-slate-400 block">COLLECTED BY</span>
+                  <span className="font-bold text-white">{selectedItem.collectedBy}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono text-slate-500 block">STORAGE LOCATION</span>
-                  <span className="font-bold text-slate-200">{selectedItem.storageLocation}</span>
+                  <span className="text-[10px] font-mono text-slate-400 block">STORAGE LOCATION</span>
+                  <span className="font-bold text-white">{selectedItem.storageLocation}</span>
                 </div>
               </div>
 
@@ -268,25 +267,25 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
                   </h4>
                   <button
                     onClick={() => setIsLogModalOpen(true)}
-                    className="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1"
+                    className="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl flex items-center gap-1 transition-colors shadow-sm"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add Custody Entry
                   </button>
                 </div>
 
-                <div className="space-y-3 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-slate-800">
+                <div className="space-y-3 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-[#1E293B]">
                   {selectedItem.custodyChain.map((log) => (
                     <div key={log.id} className="relative pl-8 space-y-1">
-                      <div className="absolute left-1.5 top-1.5 w-4 h-4 rounded-full bg-purple-500 border-2 border-slate-900" />
-                      <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                      <div className="absolute left-1.5 top-1.5 w-4 h-4 rounded-full bg-blue-500 border-2 border-[#111827]" />
+                      <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1">
                         <div className="flex items-center justify-between font-mono text-[11px]">
-                          <span className="font-bold text-slate-200">
+                          <span className="font-bold text-white">
                             {log.handledBy} ({log.badgeNumber})
                           </span>
-                          <span className="text-amber-400">{log.action}</span>
+                          <span className="text-blue-400 font-semibold">{log.action}</span>
                         </div>
                         <p className="text-slate-400">{log.notes}</p>
-                        <div className="text-[10px] font-mono text-slate-500">{log.timestamp}</div>
+                        <div className="text-[10px] font-mono text-slate-400">{log.timestamp}</div>
                       </div>
                     </div>
                   ))}
@@ -299,16 +298,16 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
 
       {/* Add Custody Entry Sub-Modal */}
       {isLogModalOpen && selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
-            <h3 className="text-base font-bold text-slate-100">Add Chain of Custody Entry</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
+            <h3 className="text-base font-bold text-white">Add Chain of Custody Entry</h3>
             <form onSubmit={handleAddCustodySubmit} className="space-y-3 text-xs">
               <div>
                 <label className="text-slate-400 font-mono mb-1 block">ACTION TYPE</label>
                 <select
                   value={logAction}
                   onChange={(e) => setLogAction(e.target.value as any)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                 >
                   <option value="TRANSFER_TO_LAB">Transfer to Lab</option>
                   <option value="ANALYSIS_COMPLETE">Analysis Complete</option>
@@ -325,7 +324,7 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
                   placeholder="Record specifics of handling, lab processing, or evidence transfer..."
                   value={logNotes}
                   onChange={(e) => setLogNotes(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none resize-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none resize-none"
                 />
               </div>
 
@@ -333,13 +332,13 @@ export const EvidenceManagementView: React.FC<EvidenceManagementViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsLogModalOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 font-semibold rounded-lg"
+                  className="px-4 py-2 bg-[#0F172A] border border-[#1E293B] text-slate-300 font-semibold rounded-xl hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg"
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-sm transition-colors"
                 >
                   Log Entry
                 </button>

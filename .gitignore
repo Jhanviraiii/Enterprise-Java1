@@ -6,3 +6,11 @@ coverage/
 *.log
 .env*
 !.env.example
+target/
+
+# Java build output
+backend/target/
+
+# Local backups
+src-backup-before-supabase/
+backend-src-backup-before-supabase/

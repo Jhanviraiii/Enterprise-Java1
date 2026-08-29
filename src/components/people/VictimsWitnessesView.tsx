@@ -72,46 +72,49 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <Users className="w-6 h-6 text-amber-400" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <Users className="w-3.5 h-3.5" />
+            <span>WITNESS & VICTIM PROTECTION</span>
+          </div>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Victim & Witness Protection Management
-          </h2>
-          <p className="text-xs text-slate-400">
-            Recorded testimonies, protected witness identities, and victim support tracking
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Recorded testimonies, protected witness identities, credibility assessments, and victim support tracking.
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-amber-500/20 flex items-center gap-2 transition-all cursor-pointer"
+          className="h-11 px-5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center gap-2 transition-all duration-200 cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4" />
-          <span>Add {activeTab === 'VICTIMS' ? 'Victim Record' : 'Witness Deposition'}</span>
+          <span>Record Statement & Protect Person</span>
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-[#1E293B] pb-3">
         <button
           onClick={() => setActiveTab('VICTIMS')}
-          className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+          className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 ${
             activeTab === 'VICTIMS'
-              ? 'bg-amber-500 text-slate-950 shadow-md'
-              : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+              ? 'bg-blue-600 text-white shadow-sm'
+              : 'bg-[#111827] border border-[#1E293B] text-slate-400 hover:text-white'
           }`}
         >
           Victim Records ({victims.length})
         </button>
         <button
           onClick={() => setActiveTab('WITNESSES')}
-          className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+          className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 ${
             activeTab === 'WITNESSES'
-              ? 'bg-amber-500 text-slate-950 shadow-md'
-              : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+              ? 'bg-blue-600 text-white shadow-sm'
+              : 'bg-[#111827] border border-[#1E293B] text-slate-400 hover:text-white'
           }`}
         >
           Witness Depositions ({witnesses.length})
@@ -119,34 +122,40 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
       </div>
 
       {/* Cards List */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {activeTab === 'VICTIMS'
           ? victims.map((v) => (
-              <div key={v.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+              <div
+                key={v.id}
+                className="bg-[#111827] border border-[#1E293B] hover:border-slate-700 rounded-[14px] p-5 shadow-sm hover:shadow-md space-y-3 transition-all duration-200 hover:-translate-y-0.5"
+              >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-100">{v.name}</span>
+                  <span className="text-xs font-bold text-white tracking-tight">{v.name}</span>
                   {v.isConfidential && (
-                    <span className="text-[10px] font-mono font-bold bg-purple-500/20 text-purple-400 border border-purple-500/40 px-2 py-0.5 rounded flex items-center gap-1">
-                      <Lock className="w-3 h-3" /> CONFIDENTIAL
+                    <span className="text-[10px] font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-md">
+                      CONFIDENTIAL
                     </span>
                   )}
                 </div>
                 <div className="text-[11px] font-mono text-slate-400">Contact: {v.contactNumber}</div>
-                <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 italic leading-relaxed">
+                <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs text-slate-300 italic leading-relaxed">
                   "{v.statement}"
                 </div>
               </div>
             ))
           : witnesses.map((w) => (
-              <div key={w.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+              <div
+                key={w.id}
+                className="bg-[#111827] border border-[#1E293B] hover:border-slate-700 rounded-[14px] p-5 shadow-sm hover:shadow-md space-y-3 transition-all duration-200 hover:-translate-y-0.5"
+              >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-100">{w.name}</span>
-                  <span className="text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">
+                  <span className="text-xs font-bold text-white tracking-tight">{w.name}</span>
+                  <span className="text-[10px] font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-md">
                     {w.credibilityRating} CREDIBILITY
                   </span>
                 </div>
                 <div className="text-[11px] font-mono text-slate-400">Contact: {w.contactNumber}</div>
-                <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 italic leading-relaxed">
+                <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs text-slate-300 italic leading-relaxed">
                   "{w.statement}"
                 </div>
               </div>
@@ -155,9 +164,9 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
 
       {/* Create Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
-            <h3 className="text-base font-bold text-slate-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-md w-full shadow-2xl p-6 space-y-4">
+            <h3 className="text-base font-bold text-white">
               Add {activeTab === 'VICTIMS' ? 'Victim Record' : 'Witness Deposition'}
             </h3>
             <form onSubmit={handleAddSubmit} className="space-y-3 text-xs">
@@ -169,7 +178,7 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
                   placeholder="Legal name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                 />
               </div>
 
@@ -181,7 +190,7 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
                   placeholder="+1 (555) 000-0000"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                 />
               </div>
 
@@ -193,7 +202,7 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
                   placeholder="Record summary statement..."
                   value={statement}
                   onChange={(e) => setStatement(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none resize-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none resize-none"
                 />
               </div>
 
@@ -203,7 +212,7 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
                   id="confidential"
                   checked={isConfidential}
                   onChange={(e) => setIsConfidential(e.target.checked)}
-                  className="rounded bg-slate-950 border-slate-800 text-amber-500 focus:ring-amber-500"
+                  className="rounded bg-[#0F172A] border-[#1E293B] text-blue-600 focus:ring-blue-500"
                 />
                 <label htmlFor="confidential" className="text-slate-300 font-mono">
                   Protect / Confidential Identity Flag
@@ -214,13 +223,13 @@ export const VictimsWitnessesView: React.FC<VictimsWitnessesViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 font-semibold rounded-lg"
+                  className="px-4 py-2 bg-[#0F172A] border border-[#1E293B] text-slate-300 font-semibold rounded-xl hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg"
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-sm transition-colors"
                 >
                   Save Record
                 </button>

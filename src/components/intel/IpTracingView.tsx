@@ -545,36 +545,35 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
   )}&layer=mapnik&marker=${effectiveLat}%2C${effectiveLng}`;
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-[11px] font-mono font-semibold text-cyan-400 mb-1">
-            <Radio className="w-3.5 h-3.5 animate-pulse" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <Radio className="w-3.5 h-3.5 animate-pulse text-blue-400" />
             <span>REAL-TIME LIVE GEOLOCATION & IP RADAR</span>
           </div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <Compass className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Precision Location & IP Tracing Tool
-          </h2>
-          <p className="text-xs text-slate-400">
-            Real-time IP lookup, OpenStreetMap GIS view, device GPS triangulation, ISP BGP routing, and tactical dispatch
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Real-time IP lookup, OpenStreetMap GIS view, device GPS triangulation, ISP BGP routing, and tactical dispatch.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5 shrink-0">
           <button
             onClick={handleTraceMyPublicIp}
-            className="px-3.5 py-2 bg-slate-950 hover:bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+            className="h-11 px-4 bg-[#0F172A] hover:bg-blue-600/10 border border-[#1E293B] text-blue-400 rounded-xl text-xs font-mono font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm"
             title="Detect and trace your current public IP address"
           >
-            <Globe className="w-3.5 h-3.5" />
+            <Globe className="w-3.5 h-3.5 text-blue-400" />
             <span>Trace My Public IP</span>
           </button>
 
           <button
             onClick={handleAcquireDeviceGps}
-            className="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+            className="h-11 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-mono font-semibold flex items-center gap-1.5 transition-all duration-200 shadow-sm cursor-pointer"
             title="Use device sensors & GPS for street-level location lock"
           >
             <LocateFixed className="w-3.5 h-3.5" />
@@ -586,24 +585,24 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
       {/* Search Input Bar & Quick Targets */}
       {batchTab === 'SINGLE' ? (
         <div className="space-y-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <div className="relative flex-1 w-full">
-                <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Enter IPv4 or IPv6 Address (e.g., 8.8.8.8, 198.51.100.42)..."
                   value={ipInput}
                   onChange={(e) => setIpInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleTraceIp(ipInput)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-cyan-500 rounded-xl text-xs font-mono text-slate-100 outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500/60 rounded-xl text-xs font-mono text-white outline-none transition-colors"
                 />
               </div>
 
               <button
                 onClick={() => handleTraceIp(ipInput)}
                 disabled={isSearching}
-                className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
+                className="w-full sm:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer shrink-0 disabled:opacity-50"
               >
                 <Crosshair className={`w-4 h-4 ${isSearching ? 'animate-spin' : ''}`} />
                 <span>{isSearching ? 'Searching...' : 'Trace Real Location'}</span>
@@ -611,15 +610,15 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
             </div>
 
             {searchStatus && (
-              <div className="text-xs font-mono text-cyan-400 flex items-center gap-2 animate-pulse">
-                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+              <div className="text-xs font-mono text-blue-400 flex items-center gap-2 animate-pulse">
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-400" />
                 <span>{searchStatus}</span>
               </div>
             )}
 
             {/* Presets Row */}
-            <div className="flex items-center gap-2 pt-2 border-t border-slate-800/80 overflow-x-auto">
-              <span className="text-[11px] font-mono text-slate-500 uppercase whitespace-nowrap">
+            <div className="flex items-center gap-2 pt-2 border-t border-[#1E293B] overflow-x-auto">
+              <span className="text-[11px] font-mono text-slate-400 uppercase whitespace-nowrap">
                 Preset Intel Targets:
               </span>
               {Object.keys(SAMPLE_IP_DATABASE).map((key) => {
@@ -628,10 +627,10 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                   <button
                     key={key}
                     onClick={() => handleTraceIp(key)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                    className={`px-3 py-1 rounded-xl text-xs font-mono transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap ${
                       activeIntel.ip === key
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
-                        : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                        ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30 font-bold'
+                        : 'bg-[#0F172A] text-slate-400 hover:text-white border border-[#1E293B]'
                     }`}
                   >
                     <span>{key}</span>
@@ -645,13 +644,13 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
           {/* Main Grid: Telemetry Dossier & Live OpenStreetMap View */}
           <div className="grid lg:grid-cols-12 gap-6 items-start">
             {/* Left Column: Comprehensive Intel Telemetry (6 cols) */}
-            <div className="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="lg:col-span-6 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 shadow-sm space-y-6">
+              <div className="flex items-center justify-between border-b border-[#1E293B] pb-4">
                 <div>
-                  <span className="text-[10px] font-mono font-bold text-cyan-400 block">
+                  <span className="text-[10px] font-mono font-bold text-blue-400 block">
                     LOCATION & IP INTEL DOSSIER
                   </span>
-                  <h3 className="text-xl font-mono font-extrabold text-slate-100 flex items-center gap-2">
+                  <h3 className="text-xl font-mono font-extrabold text-white flex items-center gap-2">
                     {activeIntel.ip}
                     <span className="text-xs font-mono font-normal text-slate-400">({activeIntel.version})</span>
                   </h3>
@@ -659,67 +658,67 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
 
                 <div className="flex items-center gap-2">
                   {activeIntel.isGpsLock && (
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-lg">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md">
                       GPS HARDWARE LOCK
                     </span>
                   )}
-                  <span className={`text-xs font-mono font-extrabold px-3 py-1 rounded-lg border ${threatBadges[activeIntel.threatLevel]}`}>
+                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">
                     THREAT: {activeIntel.threatLevel}
                   </span>
                 </div>
               </div>
 
               {/* Street-Level Address Banner */}
-              <div className="p-4 bg-gradient-to-r from-slate-950 to-slate-900 border border-cyan-500/30 rounded-xl space-y-2">
+              <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono font-bold text-cyan-400 uppercase flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-cyan-400" /> REAL STREET-LEVEL ADDRESS
+                  <span className="text-[10px] font-mono font-bold text-blue-400 uppercase flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-blue-400" /> REAL STREET-LEVEL ADDRESS
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                  <span className="text-[10px] font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-md border border-blue-500/20">
                     PRECISION: ± {activeIntel.accuracyMeters}m
                   </span>
                 </div>
-                <div className="text-base font-bold text-slate-100">{activeIntel.streetAddress}</div>
+                <div className="text-base font-bold text-white">{activeIntel.streetAddress}</div>
                 <div className="text-xs text-slate-400">
                   {activeIntel.city}, {activeIntel.region}, {activeIntel.country} ({activeIntel.postalCode})
                 </div>
-                <div className="text-[11px] font-mono text-slate-400 pt-1 flex items-center justify-between border-t border-slate-800/80">
+                <div className="text-[11px] font-mono text-slate-400 pt-1 flex items-center justify-between border-t border-[#1E293B]">
                   <span>Landmark: <strong className="text-slate-200">{activeIntel.nearestLandmark}</strong></span>
-                  <span className="text-cyan-400">Latency: {currentPing}ms</span>
+                  <span className="text-blue-400">Latency: {currentPing}ms</span>
                 </div>
               </div>
 
               {/* ISP & Coordinates */}
               <div className="grid sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase flex items-center gap-1">
-                    <Server className="w-3.5 h-3.5 text-amber-400" /> ISP / AUTONOMOUS SYSTEM
+                <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase flex items-center gap-1">
+                    <Server className="w-3.5 h-3.5 text-blue-400" /> ISP / AUTONOMOUS SYSTEM
                   </span>
-                  <div className="font-bold text-slate-100 text-sm truncate">{activeIntel.isp}</div>
+                  <div className="font-bold text-white text-sm truncate">{activeIntel.isp}</div>
                   <div className="text-slate-400 font-mono text-[11px] truncate">{activeIntel.asn}</div>
                 </div>
 
-                <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase flex items-center gap-1">
-                    <Compass className="w-3.5 h-3.5 text-emerald-400" /> EXACT GPS COORDINATES
+                <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase flex items-center gap-1">
+                    <Compass className="w-3.5 h-3.5 text-blue-400" /> EXACT GPS COORDINATES
                   </span>
-                  <div className="font-mono font-bold text-slate-100 text-sm">
+                  <div className="font-mono font-bold text-white text-sm">
                     {effectiveLat.toFixed(6)}° N, {effectiveLng.toFixed(6)}° W
                   </div>
-                  <div className="text-emerald-400 text-[11px] font-mono">Signal Power: {activeIntel.signalStrengthDbm} dBm</div>
+                  <div className="text-blue-400 text-[11px] font-mono">Signal Power: {activeIntel.signalStrengthDbm} dBm</div>
                 </div>
               </div>
 
               {/* Cell Towers & Network Nodes */}
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-3">
+                <div className="flex items-center justify-between border-b border-[#1E293B] pb-2">
                   <span className="text-[11px] font-mono font-bold text-slate-200 flex items-center gap-1.5">
-                    <Radio className="w-4 h-4 text-cyan-400" /> BSSID & CELLULAR TOWER TRIANGULATION
+                    <Radio className="w-4 h-4 text-blue-400" /> BSSID & CELLULAR TOWER TRIANGULATION
                   </span>
                   <button
                     onClick={handleInitiateTriangulation}
                     disabled={isTriangulating}
-                    className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 px-2 py-0.5 rounded border border-cyan-500/30 flex items-center gap-1 cursor-pointer"
+                    className="text-[10px] font-mono text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 px-2.5 py-0.5 rounded-md border border-blue-500/20 flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <RefreshCw className={`w-3 h-3 ${isTriangulating ? 'animate-spin' : ''}`} />
                     <span>Re-Triangulate</span>
@@ -728,14 +727,14 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
 
                 <div className="space-y-2">
                   {activeIntel.cellTowers.map((tower) => (
-                    <div key={tower.id} className="flex items-center justify-between text-xs font-mono p-2 bg-slate-900 rounded-lg">
+                    <div key={tower.id} className="flex items-center justify-between text-xs font-mono p-2.5 bg-[#111827] border border-[#1E293B] rounded-xl">
                       <div>
                         <div className="font-bold text-slate-200">{tower.name} ({tower.id})</div>
                         <div className="text-[10px] text-slate-400">Distance: {tower.distanceMeters} meters away</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-cyan-400 font-bold">{tower.signal} dBm</div>
-                        <div className="text-[9px] text-emerald-400">Lock Established</div>
+                        <div className="text-blue-400 font-bold">{tower.signal} dBm</div>
+                        <div className="text-[9px] text-blue-400 font-semibold">Lock Established</div>
                       </div>
                     </div>
                   ))}
@@ -743,14 +742,14 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
               </div>
 
               {/* Threat Factors */}
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
-                <span className="text-[11px] font-mono font-bold text-amber-400 flex items-center gap-1.5">
-                  <ShieldAlert className="w-4 h-4" /> RECONNAISSANCE THREAT FACTORS:
+              <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-2">
+                <span className="text-[11px] font-mono font-bold text-blue-400 flex items-center gap-1.5">
+                  <ShieldAlert className="w-4 h-4 text-blue-400" /> RECONNAISSANCE THREAT FACTORS:
                 </span>
                 <ul className="space-y-1">
                   {activeIntel.threatFactors.map((factor, idx) => (
                     <li key={idx} className="text-xs text-slate-300 flex items-start gap-2">
-                      <span className="text-amber-400 font-bold">•</span>
+                      <span className="text-blue-400 font-bold">•</span>
                       <span>{factor}</span>
                     </li>
                   ))}
@@ -762,7 +761,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleCopyHash}
-                    className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="px-4 py-2 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors duration-200 cursor-pointer"
                   >
                     <Copy className="w-3.5 h-3.5" />
                     <span>{copied ? 'Copied!' : 'Copy Telemetry'}</span>
@@ -770,28 +769,28 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
 
                   <button
                     onClick={() => setShowWarrantModal(true)}
-                    className="px-3.5 py-2 bg-slate-800 hover:bg-amber-500/20 hover:text-amber-300 text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="px-4 py-2 bg-[#0F172A] hover:bg-blue-600/10 border border-[#1E293B] text-blue-400 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors duration-200 cursor-pointer"
                   >
-                    <FileText className="w-3.5 h-3.5 text-amber-400" />
+                    <FileText className="w-3.5 h-3.5 text-blue-400" />
                     <span>Subpoena ISP</span>
                   </button>
                 </div>
 
                 <button
                   onClick={() => setShowDispatchModal(true)}
-                  className="px-4 py-2 bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-red-500/20 flex items-center gap-1.5 transition-all cursor-pointer"
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center gap-2 transition-all duration-200 cursor-pointer"
                 >
-                  <Siren className="w-4 h-4 text-slate-950" />
+                  <Siren className="w-4 h-4" />
                   <span>Dispatch Patrol Unit</span>
                 </button>
               </div>
             </div>
 
             {/* Right Column: Live OpenStreetMap GIS & Radar (6 cols) */}
-            <div className="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <span className="text-xs font-mono font-bold text-cyan-400 flex items-center gap-1.5">
-                  <Crosshair className="w-4 h-4 animate-spin" />
+            <div className="lg:col-span-6 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 shadow-sm space-y-4">
+              <div className="flex items-center justify-between border-b border-[#1E293B] pb-3">
+                <span className="text-xs font-mono font-bold text-blue-400 flex items-center gap-1.5">
+                  <Crosshair className="w-4 h-4 text-blue-400 animate-spin" />
                   LIVE OPENSTREETMAP GIS & TACTICAL MAP
                 </span>
 
@@ -800,10 +799,10 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                     <button
                       key={mode}
                       onClick={() => setMapLayer(mode)}
-                      className={`px-2 py-0.5 rounded transition-all cursor-pointer ${
+                      className={`px-2.5 py-1 rounded-md transition-all duration-200 cursor-pointer ${
                         mapLayer === mode
-                          ? 'bg-cyan-500 text-slate-950 font-bold'
-                          : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                          ? 'bg-blue-600 text-white font-bold'
+                          : 'bg-[#0F172A] text-slate-400 hover:text-white border border-[#1E293B]'
                       }`}
                     >
                       {mode.replace('_', ' ')}
@@ -813,7 +812,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
               </div>
 
               {/* Map Container */}
-              <div className="relative w-full aspect-square bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+              <div className="relative w-full aspect-square bg-[#0F172A] border border-[#1E293B] rounded-xl overflow-hidden shadow-sm">
                 {mapLayer === 'MAP' ? (
                   /* Real OpenStreetMap Live Tiles View */
                   <iframe
@@ -823,11 +822,11 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                   />
                 ) : (
                   /* High-Tech Tactical Radar View */
-                  <div className="relative w-full h-full flex items-center justify-center bg-slate-950">
-                    <div className="absolute inset-0 bg-[radial-gradient(#06b6d4_1px,transparent_1px)] [background-size:16px_16px] opacity-20" />
+                  <div className="relative w-full h-full flex items-center justify-center bg-[#0F172A]">
+                    <div className="absolute inset-0 bg-[radial-gradient(#3B82F6_1px,transparent_1px)] [background-size:16px_16px] opacity-20" />
                     
                     {/* Concentric Radar Rings */}
-                    <svg className="absolute inset-0 w-full h-full text-cyan-500/30" viewBox="0 0 200 200">
+                    <svg className="absolute inset-0 w-full h-full text-blue-500/30" viewBox="0 0 200 200">
                       <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="3 3" />
                       <circle cx="100" cy="100" r="55" fill="none" stroke="currentColor" strokeWidth="0.8" />
                       <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="1 1" />
@@ -836,8 +835,8 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
 
                       {mapLayer === 'CELL_TRIANGULATION' && (
                         <g>
-                          <polygon points="40,30 100,100 160,160" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" strokeWidth="1" />
-                          <polygon points="160,40 100,100 40,150" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" strokeWidth="1" />
+                          <polygon points="40,30 100,100 160,160" fill="rgba(59,130,246,0.15)" stroke="#3B82F6" strokeWidth="1" />
+                          <polygon points="160,40 100,100 40,150" fill="rgba(96,165,250,0.15)" stroke="#60A5FA" strokeWidth="1" />
                         </g>
                       )}
 
@@ -846,8 +845,8 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                       </g>
                       <defs>
                         <linearGradient id="radarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#06b6d4" stopOpacity="0" />
-                          <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.9" />
+                          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                          <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.9} />
                         </linearGradient>
                       </defs>
                     </svg>
@@ -855,14 +854,14 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                     {/* Target Reticle Pin */}
                     <div className="relative z-10 flex flex-col items-center">
                       <div className="relative flex items-center justify-center">
-                        <span className="animate-ping absolute inline-flex h-16 w-16 rounded-full bg-cyan-400 opacity-75" />
-                        <div className="w-10 h-10 rounded-full bg-cyan-500/30 border-2 border-cyan-400 flex items-center justify-center text-cyan-300 shadow-2xl">
-                          <MapPin className="w-5 h-5 text-cyan-300 animate-bounce" />
+                        <span className="animate-ping absolute inline-flex h-16 w-16 rounded-full bg-blue-400 opacity-75" />
+                        <div className="w-10 h-10 rounded-full bg-blue-500/30 border-2 border-blue-400 flex items-center justify-center text-blue-400 shadow-md">
+                          <MapPin className="w-5 h-5 text-blue-400 animate-bounce" />
                         </div>
                       </div>
-                      <div className="mt-2 bg-slate-900/95 border border-cyan-500/50 rounded-xl p-2 text-center backdrop-blur-md shadow-2xl space-y-0.5">
-                        <div className="text-xs font-mono font-bold text-cyan-300">{activeIntel.streetAddress}</div>
-                        <div className="text-[10px] font-mono text-slate-300">
+                      <div className="mt-2 bg-[#111827] border border-blue-500/50 rounded-xl p-2.5 text-center backdrop-blur-md shadow-md space-y-0.5">
+                        <div className="text-xs font-mono font-bold text-white">{activeIntel.streetAddress}</div>
+                        <div className="text-[10px] font-mono text-slate-400">
                           {effectiveLat.toFixed(6)}, {effectiveLng.toFixed(6)}
                         </div>
                       </div>
@@ -871,28 +870,28 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                 )}
 
                 {/* Overlay Badge */}
-                <div className="absolute bottom-3 left-3 bg-slate-900/90 border border-slate-800 rounded-lg px-2.5 py-1 backdrop-blur-md text-[10px] font-mono text-cyan-400">
+                <div className="absolute bottom-3 left-3 bg-[#0F172A]/90 border border-[#1E293B] rounded-xl px-3 py-1.5 backdrop-blur-md text-[10px] font-mono text-blue-400 shadow-sm">
                   <span>GPS: {effectiveLat.toFixed(5)}, {effectiveLng.toFixed(5)}</span>
                 </div>
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${effectiveLat},${effectiveLng}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute bottom-3 right-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-[10px] font-mono flex items-center gap-1 shadow-lg"
+                  className="absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-1.5 rounded-xl text-[10px] font-mono flex items-center gap-1 shadow-sm transition-colors duration-200"
                 >
                   <span>Open Google Maps ↗</span>
                 </a>
               </div>
 
               {/* ICMP Stream */}
-              <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1 font-mono text-[10px]">
-                <div className="text-slate-500 flex items-center justify-between border-b border-slate-800/80 pb-1">
-                  <span className="flex items-center gap-1 text-cyan-400 font-bold">
-                    <Activity className="w-3 h-3 animate-pulse" /> TELEMETRY PACKET STREAM
+              <div className="p-3.5 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1.5 font-mono text-[10px]">
+                <div className="text-slate-400 flex items-center justify-between border-b border-[#1E293B] pb-1.5">
+                  <span className="flex items-center gap-1.5 text-blue-400 font-bold">
+                    <Activity className="w-3.5 h-3.5 text-blue-400 animate-pulse" /> TELEMETRY PACKET STREAM
                   </span>
                   <span>LATENCY: {currentPing} ms</span>
                 </div>
-                <div className="space-y-0.5 text-slate-300 max-h-24 overflow-y-auto">
+                <div className="space-y-1 text-slate-300 max-h-24 overflow-y-auto pr-1">
                   {liveLogs.map((logStr, i) => (
                     <div key={i} className="truncate">{logStr}</div>
                   ))}
@@ -903,10 +902,10 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
         </div>
       ) : (
         /* Subnet Roster Table */
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-cyan-400" />
+        <div className="bg-[#111827] border border-[#1E293B] rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-[#1E293B] pb-4">
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Layers className="w-4 h-4 text-blue-400" />
               Suspect IP Addresses & Subnet Surveillance Roster
             </h3>
             <span className="text-xs font-mono text-slate-400">{Object.keys(SAMPLE_IP_DATABASE).length} Monitored Nodes</span>
@@ -915,7 +914,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-950/80 border-b border-slate-800 text-[11px] font-mono text-slate-400 uppercase">
+                <tr className="bg-[#0F172A] border-b border-[#1E293B] text-[11px] font-mono text-slate-400 uppercase">
                   <th className="p-3">IP Address</th>
                   <th className="p-3">Resolved Address</th>
                   <th className="p-3">ISP / Autonomous System</th>
@@ -924,27 +923,27 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                   <th className="p-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 text-xs font-mono">
+              <tbody className="divide-y divide-[#1E293B] text-xs font-mono">
                 {Object.values(SAMPLE_IP_DATABASE).map((item) => (
-                  <tr key={item.ip} className="hover:bg-slate-800/50 transition-colors">
-                    <td className="p-3 font-bold text-cyan-300">{item.ip}</td>
+                  <tr key={item.ip} className="hover:bg-[#0F172A] transition-colors duration-200">
+                    <td className="p-3 font-bold text-blue-400">{item.ip}</td>
                     <td className="p-3 text-slate-200">
                       {item.streetAddress}, {item.city}
                     </td>
                     <td className="p-3 text-slate-400 truncate max-w-[180px]">{item.isp}</td>
                     <td className="p-3">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${threatBadges[item.threatLevel]}`}>
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">
                         {item.threatLevel}
                       </span>
                     </td>
-                    <td className="p-3 text-amber-300">{item.linkedCaseNumber || 'None'}</td>
+                    <td className="p-3 text-blue-400 font-semibold">{item.linkedCaseNumber || 'None'}</td>
                     <td className="p-3 text-right">
                       <button
                         onClick={() => {
                           setBatchTab('SINGLE');
                           setActiveIntel(item);
                         }}
-                        className="px-3 py-1 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-xs font-semibold transition-colors"
+                        className="px-3.5 py-1 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20 rounded-xl text-xs font-semibold transition-colors duration-200"
                       >
                         Launch Radar
                       </button>
@@ -959,30 +958,30 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
 
       {/* Dispatch Patrol Unit Modal */}
       {showDispatchModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                <Siren className="w-5 h-5 text-red-500 animate-pulse" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#1E293B] pb-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Siren className="w-5 h-5 text-blue-400 animate-pulse" />
                 Dispatch Tactical Patrol Unit to Target
               </h3>
-              <button onClick={() => setShowDispatchModal(false)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setShowDispatchModal(false)} className="text-slate-400 hover:text-white">
                 ✕
               </button>
             </div>
 
-            <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 space-y-2">
-              <div className="text-red-400 font-bold">DISPATCH TARGET VECTOR</div>
-              <p>Target IP: <strong>{activeIntel.ip}</strong></p>
-              <p>Location: <strong>{activeIntel.streetAddress}, {activeIntel.city}</strong></p>
-              <p>GPS Lock: <strong>{effectiveLat.toFixed(6)}, {effectiveLng.toFixed(6)} (± {activeIntel.accuracyMeters}m)</strong></p>
-              <p>Associated Suspect: <strong>{activeIntel.suspectAlias || 'Target Node'}</strong></p>
+            <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl font-mono text-xs text-slate-300 space-y-2">
+              <div className="text-blue-400 font-bold">DISPATCH TARGET VECTOR</div>
+              <p>Target IP: <strong className="text-white">{activeIntel.ip}</strong></p>
+              <p>Location: <strong className="text-white">{activeIntel.streetAddress}, {activeIntel.city}</strong></p>
+              <p>GPS Lock: <strong className="text-white">{effectiveLat.toFixed(6)}, {effectiveLng.toFixed(6)} (± {activeIntel.accuracyMeters}m)</strong></p>
+              <p>Associated Suspect: <strong className="text-white">{activeIntel.suspectAlias || 'Target Node'}</strong></p>
             </div>
 
             <div className="pt-2 flex justify-end gap-2">
               <button
                 onClick={() => setShowDispatchModal(false)}
-                className="px-4 py-2 bg-slate-800 text-slate-300 font-semibold text-xs rounded-xl"
+                className="px-4 py-2 bg-[#0F172A] border border-[#1E293B] text-slate-300 font-semibold text-xs rounded-xl hover:bg-slate-800 transition-colors"
               >
                 Cancel
               </button>
@@ -991,7 +990,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                   alert(`Patrol Unit Dispatched to ${activeIntel.streetAddress}! Coordinates locked in Dispatch Terminal.`);
                   setShowDispatchModal(false);
                 }}
-                className="px-5 py-2 bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg"
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm transition-colors"
               >
                 Confirm Emergency Dispatch
               </button>
@@ -1002,24 +1001,24 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
 
       {/* Subpoena / Warrant Request Modal */}
       {showWarrantModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-amber-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-xl w-full shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#1E293B] pb-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <FileText className="w-5 h-5 text-blue-400" />
                 ISP Subpoena / Telecommunication Warrant Request
               </h3>
-              <button onClick={() => setShowWarrantModal(false)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setShowWarrantModal(false)} className="text-slate-400 hover:text-white">
                 ✕
               </button>
             </div>
 
-            <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 space-y-2 leading-relaxed max-h-80 overflow-y-auto">
-              <div className="text-amber-400 font-bold">STATE POLICE COMMAND - COURT WARRANT SUBPOENA FORM 104-C</div>
+            <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl font-mono text-xs text-slate-300 space-y-2 leading-relaxed max-h-80 overflow-y-auto">
+              <div className="text-blue-400 font-bold">STATE POLICE COMMAND - COURT WARRANT SUBPOENA FORM 104-C</div>
               <p>TO: Legal Compliance Officer, {activeIntel.isp}</p>
               <p>SUBJECT: Mandatory Emergency Subpoena for Subscriber Telemetry on Target IP {activeIntel.ip}</p>
-              <hr className="border-slate-800" />
-              <p>Pursuant to Code Section 410-B, you are hereby requested to provide subscriber identification, account logs, assigned billing addresses, and MAC address telemetry for IP address <strong>{activeIntel.ip}</strong> recorded active at timestamp {activeIntel.lastSeen}.</p>
+              <hr className="border-[#1E293B]" />
+              <p>Pursuant to Code Section 410-B, you are hereby requested to provide subscriber identification, account logs, assigned billing addresses, and MAC address telemetry for IP address <strong className="text-white">{activeIntel.ip}</strong> recorded active at timestamp {activeIntel.lastSeen}.</p>
               <p>Location Geolocation: {activeIntel.streetAddress}, {activeIntel.city}, {activeIntel.country} ({effectiveLat.toFixed(6)}, {effectiveLng.toFixed(6)})</p>
               <p>Associated Case: {activeIntel.linkedCaseNumber || 'CR-2026-4410'}</p>
               <p>Requesting Officer: {currentUser.name} (Badge #{currentUser.badgeNumber})</p>
@@ -1028,7 +1027,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
             <div className="pt-2 flex justify-end gap-2">
               <button
                 onClick={() => setShowWarrantModal(false)}
-                className="px-4 py-2 bg-slate-800 text-slate-300 font-semibold text-xs rounded-xl"
+                className="px-4 py-2 bg-[#0F172A] border border-[#1E293B] text-slate-300 font-semibold text-xs rounded-xl hover:bg-slate-800 transition-colors"
               >
                 Close
               </button>
@@ -1037,7 +1036,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
                   alert('Warrant request generated and saved to Evidence Vault!');
                   setShowWarrantModal(false);
                 }}
-                className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg"
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm transition-colors"
               >
                 Export Official Subpoena PDF
               </button>
@@ -1045,6 +1044,7 @@ export const IpTracingView: React.FC<IpTracingViewProps> = ({
           </div>
         </div>
       )}
+
     </div>
   );
 };

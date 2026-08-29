@@ -12,6 +12,7 @@ import {
   Globe,
   X,
   ShieldAlert,
+  SearchX,
 } from 'lucide-react';
 
 interface CrimeRecordViewProps {
@@ -28,62 +29,66 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
   onUpdateStatus,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [typeFilter, setTypeFilter] = useState('ALL');
-  const [statusFilter, setStatusFilter] = useState('ALL');
+  const [typeFilter, setTypeFilter] = useState<string>('ALL');
+  const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [selectedRecord, setSelectedRecord] = useState<CrimeRecord | null>(null);
 
   const filteredRecords = crimeRecords.filter((rec) => {
     const matchesSearch =
+      !searchQuery ||
       rec.caseNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
       rec.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       rec.firNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
       rec.assignedInvestigatorName.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesType = typeFilter === 'ALL' || rec.crimeType === typeFilter;
+    const matchesType = typeFilter === 'ALL' || rec.crimeType.toLowerCase().includes(typeFilter.toLowerCase());
     const matchesStatus = statusFilter === 'ALL' || rec.status === statusFilter;
 
     return matchesSearch && matchesType && matchesStatus;
   });
 
-  const severityBadges = {
-    CRITICAL: 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse',
-    SEVERE: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
-    MODERATE: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40',
-    MINOR: 'bg-slate-800 text-slate-400',
+  const severityBadges: Record<string, string> = {
+    CRITICAL: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    HIGH: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    MEDIUM: 'bg-blue-500/10 text-blue-300 border-blue-500/20',
+    LOW: 'bg-slate-800 text-slate-400 border-slate-700',
   };
 
-  const statusBadges = {
-    OPEN: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-    UNDER_INVESTIGATION: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    SOLVED: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-    CLOSED: 'bg-slate-800 text-slate-500',
+  const statusBadges: Record<string, string> = {
+    OPEN: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+    UNDER_INVESTIGATION: 'bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold',
+    SOLVED: 'bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold',
+    CLOSED: 'bg-slate-800 text-slate-400',
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <FolderOpen className="w-6 h-6 text-amber-400" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <FolderOpen className="w-3.5 h-3.5" />
+            <span>CRIME MASTER DOSSIERS</span>
+          </div>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Crime Record & Investigation Master File
-          </h2>
-          <p className="text-xs text-slate-400">
-            Multi-criteria case search, modus operandi cataloging, assigned detectives, and evidence links
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Multi-criteria case search, modus operandi cataloging, assigned detectives, and evidence links across municipal law enforcement units.
           </p>
         </div>
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="grid sm:grid-cols-12 gap-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+      <div className="grid sm:grid-cols-12 gap-3 bg-[#111827] border border-[#1E293B] rounded-xl p-4 shadow-sm">
         <div className="sm:col-span-6 relative">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search Case Number, Title, FIR Number, Investigator..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 focus:border-amber-500 rounded-xl text-xs text-slate-200 outline-none"
+            className="w-full pl-9 pr-4 py-2 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500/60 rounded-xl text-xs text-white outline-none transition-colors"
           />
         </div>
 
@@ -91,7 +96,7 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
           >
             <option value="ALL">All Crime Types</option>
             <option value="Armed Robbery">Armed Robbery</option>
@@ -105,7 +110,7 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
           >
             <option value="ALL">All Case Statuses</option>
             <option value="OPEN">Open</option>
@@ -116,91 +121,112 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
         </div>
       </div>
 
-      {/* Grid of Crime Record Dossier Cards */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredRecords.map((rec) => (
-          <div
-            key={rec.id}
-            className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-xl space-y-4 flex flex-col justify-between transition-all group"
-          >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold text-amber-400">{rec.caseNumber}</span>
-                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${severityBadges[rec.severity]}`}>
-                  {rec.severity}
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">
-                  {rec.title}
-                </h3>
-                <p className="text-xs text-slate-400 mt-1 line-clamp-2">{rec.description}</p>
-              </div>
-
-              {/* Modus Operandi Tags */}
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-slate-500 uppercase">MODUS OPERANDI:</span>
-                <div className="flex flex-wrap gap-1">
-                  {rec.modusOperandi.map((mo, idx) => (
-                    <span key={idx} className="text-[10px] bg-slate-950 text-slate-300 px-2 py-0.5 rounded border border-slate-800 flex items-center gap-1">
-                      <Zap className="w-2.5 h-2.5 text-amber-400" />
-                      {mo}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Telemetry info */}
-              <div className="pt-2 border-t border-slate-800/80 space-y-1 text-[11px] font-mono text-slate-400">
-                <div className="flex items-center justify-between">
-                  <span>INVESTIGATOR:</span>
-                  <span className="text-slate-200 font-semibold">{rec.assignedInvestigatorName}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>LINKED FIR:</span>
-                  <span className="text-amber-300">{rec.firNumber}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card Action Footer */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-              <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${statusBadges[rec.status]}`}>
-                {rec.status.replace(/_/g, ' ')}
-              </span>
-
-              <button
-                onClick={() => setSelectedRecord(rec)}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-amber-500/20 hover:text-amber-300 text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1 transition-colors"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                Inspect File
-              </button>
-            </div>
+      {/* Grid of Crime Record Dossier Cards OR Empty State */}
+      {filteredRecords.length === 0 ? (
+        <div className="p-12 text-center bg-[#111827] border border-[#1E293B] rounded-2xl space-y-3 shadow-sm">
+          <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto text-blue-400">
+            <SearchX className="w-6 h-6" />
           </div>
-        ))}
-      </div>
+          <h4 className="text-sm font-bold text-white tracking-tight">No Matching Crime Records Found</h4>
+          <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+            No active crime records match your current search criteria. Try clearing query filters or adjusting case status.
+          </p>
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              setTypeFilter('ALL');
+              setStatusFilter('ALL');
+            }}
+            className="px-4 py-2 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-blue-400 font-semibold text-xs rounded-xl transition-colors duration-200 cursor-pointer"
+          >
+            Reset Search Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredRecords.map((rec) => (
+            <div
+              key={rec.id}
+              className="bg-[#111827] border border-[#1E293B] hover:border-slate-700 rounded-[14px] p-5 shadow-sm hover:shadow-md space-y-4 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 group"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-blue-400 tracking-wide">{rec.caseNumber}</span>
+                  <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-md border ${severityBadges[rec.severity]}`}>
+                    {rec.severity}
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors duration-200 tracking-tight">
+                    {rec.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">{rec.description}</p>
+                </div>
+
+                {/* Modus Operandi Tags */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">MODUS OPERANDI:</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {rec.modusOperandi.map((mo, idx) => (
+                      <span key={idx} className="text-[10px] bg-[#0F172A] text-slate-300 px-2.5 py-0.5 rounded-md border border-[#1E293B]">
+                        {mo}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Telemetry info */}
+                <div className="pt-3 border-t border-[#1E293B] space-y-1.5 text-[11px] font-mono text-slate-400">
+                  <div className="flex items-center justify-between">
+                    <span>INVESTIGATOR:</span>
+                    <span className="text-slate-200 font-semibold">{rec.assignedInvestigatorName}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>LINKED FIR:</span>
+                    <span className="text-blue-400 font-semibold">{rec.firNumber}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card Action Footer */}
+              <div className="pt-3 border-t border-[#1E293B] flex items-center justify-between">
+                <span className={`text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-md ${statusBadges[rec.status]}`}>
+                  {rec.status.replace(/_/g, ' ')}
+                </span>
+
+                <button
+                  onClick={() => setSelectedRecord(rec)}
+                  className="px-3.5 py-1.5 bg-[#0F172A] hover:bg-blue-600/10 border border-[#1E293B] text-blue-400 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors duration-200 cursor-pointer"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Inspect File</span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Record Inspection Modal */}
       {selectedRecord && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-5 border-b border-[#1E293B] flex items-center justify-between bg-[#0F172A]">
               <div>
-                <span className="text-xs font-mono font-bold text-amber-400">{selectedRecord.caseNumber}</span>
-                <h3 className="text-lg font-bold text-slate-100">{selectedRecord.title}</h3>
+                <span className="text-xs font-mono font-bold text-blue-400">{selectedRecord.caseNumber}</span>
+                <h3 className="text-lg font-bold text-white">{selectedRecord.title}</h3>
               </div>
               <button
                 onClick={() => setSelectedRecord(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800"
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="p-6 overflow-y-auto space-y-6 text-xs">
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
+              <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-2">
                 <h4 className="font-mono font-bold text-slate-300">FULL CASE DESCRIPTION</h4>
                 <p className="text-slate-300 leading-relaxed">{selectedRecord.description}</p>
               </div>
@@ -208,25 +234,25 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
               {/* Specific Intelligence Parameters */}
               <div className="grid sm:grid-cols-2 gap-3">
                 {selectedRecord.vehicleDetails && (
-                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                    <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1">
-                      <Car className="w-3.5 h-3.5 text-amber-400" /> ESCAPE VEHICLE TELEMETRY
+                  <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1">
+                    <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
+                      <Car className="w-3.5 h-3.5 text-blue-400" /> ESCAPE VEHICLE TELEMETRY
                     </span>
-                    <p className="font-semibold text-slate-200">{selectedRecord.vehicleDetails}</p>
+                    <p className="font-semibold text-white">{selectedRecord.vehicleDetails}</p>
                   </div>
                 )}
                 {selectedRecord.ipAddress && (
-                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                    <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1">
-                      <Globe className="w-3.5 h-3.5 text-cyan-400" /> IP ADDRESS / SUBNET RECON
+                  <div className="p-3 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-1">
+                    <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
+                      <Globe className="w-3.5 h-3.5 text-blue-400" /> IP ADDRESS / SUBNET RECON
                     </span>
-                    <p className="font-mono font-semibold text-cyan-300">{selectedRecord.ipAddress}</p>
+                    <p className="font-mono font-semibold text-blue-400">{selectedRecord.ipAddress}</p>
                   </div>
                 )}
               </div>
 
               {/* Status Update Bar */}
-              <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
+              <div className="p-4 bg-[#0F172A] border border-[#1E293B] rounded-xl space-y-2">
                 <span className="font-mono font-bold text-slate-300">CHANGE CASE STATUS FLOW:</span>
                 <div className="flex flex-wrap gap-2 pt-1">
                   {(['OPEN', 'UNDER_INVESTIGATION', 'SOLVED', 'CLOSED'] as CrimeRecord['status'][]).map((st) => (
@@ -236,10 +262,10 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
                         onUpdateStatus(selectedRecord.id, st);
                         setSelectedRecord({ ...selectedRecord, status: st });
                       }}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-mono font-semibold transition-all duration-200 ${
                         selectedRecord.status === st
-                          ? 'bg-amber-500 text-slate-950 shadow-md'
-                          : 'bg-slate-900 border border-slate-700 text-slate-300 hover:border-slate-500'
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'bg-[#111827] border border-[#1E293B] text-slate-300 hover:border-slate-600'
                       }`}
                     >
                       {st.replace(/_/g, ' ')}
@@ -254,3 +280,4 @@ export const CrimeRecordView: React.FC<CrimeRecordViewProps> = ({
     </div>
   );
 };
+

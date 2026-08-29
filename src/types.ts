@@ -1,4 +1,11 @@
-export type UserRole = 'ADMIN' | 'POLICE_OFFICER' | 'INVESTIGATOR' | 'FORENSIC_OFFICER';
+export type UserRole =
+  | 'ADMIN'
+  | 'INVESTIGATOR'
+  | 'POLICE'
+  | 'FORENSICS'
+  | 'ANALYST'
+  | 'POLICE_OFFICER'
+  | 'FORENSIC_OFFICER';
 
 export interface User {
   id: string;
@@ -54,8 +61,21 @@ export interface CrimeRecord {
   title: string;
   crimeType: string;
   district: string;
+  sectorCode?: string; // e.g. SEC-101, SEC-102, SEC-103, SEC-104, SEC-105
   locationAddress: string;
-  coordinates: { x: number; y: number }; // Percentage positions on map grid
+  landmark?: string;
+  nearestPoliceStation?: string;
+  latitude?: number;
+  longitude?: number;
+  coordinates: {
+    x: number;
+    y: number;
+    lat?: number;
+    lng?: number;
+    landmark?: string;
+    nearestStation?: string;
+    sectorCode?: string;
+  };
   dateTimeOccurred: string;
   description: string;
   assignedInvestigatorId: string;

@@ -4,24 +4,28 @@ import { generateUUID } from '../../utils/crypto';
 import {
   UserCheck,
   Search,
-  Filter,
   Plus,
-  ShieldAlert,
-  Zap,
   Award,
   Users,
   Eye,
   X,
+  SearchX,
+  Trash2,
+  Edit3,
 } from 'lucide-react';
 
 interface CriminalProfileViewProps {
   criminals: CriminalProfile[];
   onAddCriminal: (newCriminal: CriminalProfile) => void;
+  onUpdateCriminal?: (updatedCriminal: CriminalProfile) => void;
+  onDeleteCriminal?: (id: string) => void;
 }
 
 export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
   criminals,
   onAddCriminal,
+  onUpdateCriminal,
+  onDeleteCriminal,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [threatFilter, setThreatFilter] = useState('ALL');
@@ -40,10 +44,12 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
   const [status, setStatus] = useState<CriminalProfile['status']>('WANTED');
 
   const filteredCriminals = criminals.filter((crim) => {
+    const searchLower = searchQuery.toLowerCase();
     const matchesSearch =
-      crim.codeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      crim.legalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      crim.aliases.some((a) => a.toLowerCase().includes(searchQuery.toLowerCase()));
+      !searchQuery ||
+      (crim.codeName && crim.codeName.toLowerCase().includes(searchLower)) ||
+      (crim.legalName && crim.legalName.toLowerCase().includes(searchLower)) ||
+      (Array.isArray(crim.aliases) && crim.aliases.some((a) => a.toLowerCase().includes(searchLower)));
 
     const matchesThreat = threatFilter === 'ALL' || crim.threatLevel === threatFilter;
     const matchesStatus = statusFilter === 'ALL' || crim.status === statusFilter;
@@ -74,7 +80,7 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
 
     onAddCriminal(newProfile);
     setIsAddModalOpen(false);
-    // Reset
+    // Reset form
     setCodeName('');
     setLegalName('');
     setAliases('');
@@ -83,37 +89,33 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
     setPastConvictions('');
   };
 
-  const threatBadges = {
-    EXTREME: 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse',
-    HIGH: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
-    MEDIUM: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40',
-    LOW: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40',
-  };
-
-  const statusBadges = {
-    WANTED: 'bg-red-500/20 text-red-400 border-red-500/40 font-bold',
-    IN_CUSTODY: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40',
-    UNDER_SURVEILLANCE: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
-    CLEARED: 'bg-slate-800 text-slate-400',
+  const threatBadges: Record<string, string> = {
+    EXTREME: 'bg-red-500/10 text-red-400 border-red-500/20 font-bold',
+    HIGH: 'bg-amber-500/10 text-amber-400 border-amber-500/20 font-semibold',
+    MEDIUM: 'bg-blue-500/10 text-blue-300 border-blue-500/20',
+    LOW: 'bg-slate-800 text-slate-400 border-slate-700',
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-20">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-            <UserCheck className="w-6 h-6 text-amber-400" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#111827] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-[10px] font-bold tracking-wider uppercase">
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>OFFENDER & SUSPECT REGISTRY</span>
+          </div>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
             Criminal & Suspect Dossier Registry
-          </h2>
-          <p className="text-xs text-slate-400">
-            Known offender profiles, mugshots, threat scores, modus operandi, and conviction histories
+          </h1>
+          <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+            Known offender profiles, mugshots, threat scores, modus operandi, and conviction histories synced with Supabase.
           </p>
         </div>
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-amber-500/20 flex items-center gap-2 transition-all cursor-pointer"
+          className="h-11 px-5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center gap-2 transition-all duration-200 cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Add Suspect Dossier</span>
@@ -121,15 +123,15 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
       </div>
 
       {/* Filter Bar */}
-      <div className="grid sm:grid-cols-12 gap-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+      <div className="grid sm:grid-cols-12 gap-3 bg-[#111827] border border-[#1E293B] rounded-xl p-4 shadow-sm">
         <div className="sm:col-span-6 relative">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search Alias, Legal Name, Code Name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 focus:border-amber-500 rounded-xl text-xs text-slate-200 outline-none"
+            className="w-full pl-9 pr-4 py-2 bg-[#0F172A] border border-[#1E293B] focus:border-blue-500/60 rounded-xl text-xs text-white outline-none transition-colors"
           />
         </div>
 
@@ -137,12 +139,13 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
           <select
             value={threatFilter}
             onChange={(e) => setThreatFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
           >
             <option value="ALL">All Threat Levels</option>
             <option value="EXTREME">Extreme Threat</option>
             <option value="HIGH">High Threat</option>
             <option value="MEDIUM">Medium Threat</option>
+            <option value="LOW">Low Threat</option>
           </select>
         </div>
 
@@ -150,145 +153,230 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-xs text-slate-300 outline-none cursor-pointer"
           >
             <option value="ALL">All Legal Statuses</option>
             <option value="WANTED">Wanted</option>
             <option value="IN_CUSTODY">In Custody</option>
             <option value="UNDER_SURVEILLANCE">Under Surveillance</option>
+            <option value="CLEARED">Cleared</option>
           </select>
         </div>
       </div>
 
-      {/* Grid of Suspect Dossier Cards */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredCriminals.map((crim) => (
-          <div
-            key={crim.id}
-            className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-xl space-y-4 flex flex-col justify-between transition-all group"
+      {/* Grid of Suspect Dossier Cards OR Empty State */}
+      {filteredCriminals.length === 0 ? (
+        <div className="p-12 text-center bg-[#111827] border border-[#1E293B] rounded-2xl space-y-3 shadow-sm">
+          <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto text-blue-400">
+            <SearchX className="w-6 h-6" />
+          </div>
+          <h4 className="text-sm font-bold text-white tracking-tight">No Matching Suspect Dossiers Found</h4>
+          <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+            No suspect profiles match your current search query or active threat filters.
+          </p>
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              setThreatFilter('ALL');
+              setStatusFilter('ALL');
+            }}
+            className="px-4 py-2 bg-[#0F172A] hover:bg-slate-800 border border-[#1E293B] text-blue-400 font-semibold text-xs rounded-xl transition-colors duration-200 cursor-pointer"
           >
-            <div className="space-y-4">
-              <div className="flex items-start gap-4">
-                <img
-                  src={crim.photoUrl}
-                  alt={crim.legalName}
-                  className="w-16 h-20 rounded-xl object-cover border-2 border-slate-700 group-hover:border-amber-500 transition-colors shadow-lg"
-                />
-                <div className="space-y-1 min-w-0 flex-1">
-                  <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border ${threatBadges[crim.threatLevel]}`}>
-                    {crim.threatLevel} THREAT
-                  </span>
-                  <h3 className="text-base font-bold text-slate-100 truncate">{crim.codeName}</h3>
-                  <div className="text-xs text-slate-300 truncate">{crim.legalName}</div>
-                  <div className="text-[10px] text-slate-500 truncate">
-                    Aliases: {crim.aliases.join(', ') || 'None'}
+            Reset Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredCriminals.map((crim) => (
+            <div
+              key={crim.id}
+              className="bg-[#111827] border border-[#1E293B] hover:border-slate-700 rounded-[14px] p-5 shadow-sm hover:shadow-md space-y-4 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 group"
+            >
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <img
+                    src={crim.photoUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200'}
+                    alt={crim.legalName}
+                    className="w-16 h-20 rounded-xl object-cover border border-[#1E293B] group-hover:border-blue-500 transition-colors shadow-sm shrink-0"
+                  />
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <span className={`text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-md border ${threatBadges[crim.threatLevel] || 'bg-slate-800 text-slate-400'}`}>
+                      {crim.threatLevel} THREAT
+                    </span>
+                    <h3 className="text-base font-bold text-white truncate tracking-tight">{crim.codeName || crim.aliases?.[0] || crim.legalName}</h3>
+                    <div className="text-xs text-slate-300 truncate">{crim.legalName}</div>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">MODUS OPERANDI:</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Array.isArray(crim.modusOperandi) && crim.modusOperandi.length > 0 ? (
+                      crim.modusOperandi.slice(0, 2).map((mo, i) => (
+                        <span key={i} className="text-[10px] bg-[#0F172A] text-slate-300 px-2.5 py-0.5 rounded-md border border-[#1E293B]">
+                          {mo}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-[10px] text-slate-500 italic">No MO recorded</span>
+                    )}
                   </div>
                 </div>
               </div>
 
-              {/* Modus Operandi Tags */}
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-slate-500 uppercase">MODUS OPERANDI:</span>
-                <div className="flex flex-wrap gap-1">
-                  {crim.modusOperandi.map((mo, idx) => (
-                    <span key={idx} className="text-[10px] bg-slate-950 text-slate-300 px-2 py-0.5 rounded border border-slate-800 flex items-center gap-1">
-                      <Zap className="w-2.5 h-2.5 text-amber-400" />
-                      {mo}
-                    </span>
-                  ))}
+              {/* Footer */}
+              <div className="pt-3 border-t border-[#1E293B] flex items-center justify-between">
+                <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                  {crim.status ? crim.status.replace(/_/g, ' ') : 'WANTED'}
+                </span>
+
+                <div className="flex items-center gap-2">
+                  {onDeleteCriminal && (
+                    <button
+                      onClick={() => {
+                        if (confirm(`Are you sure you want to delete profile for ${crim.legalName}?`)) {
+                          onDeleteCriminal(crim.id);
+                        }
+                      }}
+                      className="p-1.5 bg-[#0F172A] hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-[#1E293B] rounded-xl transition-colors cursor-pointer"
+                      title="Delete Profile"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setSelectedCriminal(crim)}
+                    className="px-3 py-1.5 bg-[#0F172A] hover:bg-blue-600/10 border border-[#1E293B] text-blue-400 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-colors duration-200 cursor-pointer"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Dossier</span>
+                  </button>
                 </div>
               </div>
             </div>
-
-            {/* Footer */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${statusBadges[crim.status]}`}>
-                {crim.status.replace(/_/g, ' ')}
-              </span>
-
-              <button
-                onClick={() => setSelectedCriminal(crim)}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-amber-500/20 hover:text-amber-300 text-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1 transition-colors"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                Full Dossier
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Suspect Full Dossier Modal */}
       {selectedCriminal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-5 border-b border-[#1E293B] flex items-center justify-between bg-[#0F172A]">
               <div className="flex items-center gap-3">
                 <img
-                  src={selectedCriminal.photoUrl}
+                  src={selectedCriminal.photoUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200'}
                   alt={selectedCriminal.legalName}
-                  className="w-10 h-10 rounded-lg object-cover border border-amber-500"
+                  className="w-10 h-10 rounded-lg object-cover border border-blue-500"
                 />
                 <div>
-                  <span className="text-xs font-mono font-bold text-amber-400">{selectedCriminal.codeName}</span>
-                  <h3 className="text-lg font-bold text-slate-100">{selectedCriminal.legalName}</h3>
+                  <span className="text-xs font-mono font-bold text-blue-400">{selectedCriminal.codeName}</span>
+                  <h3 className="text-lg font-bold text-white">{selectedCriminal.legalName}</h3>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedCriminal(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800"
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto space-y-5 text-xs">
+            <div className="p-6 overflow-y-auto space-y-5 text-xs custom-scrollbar">
               <div className="grid sm:grid-cols-4 gap-3 text-center">
-                <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-                  <span className="text-[10px] font-mono text-slate-500 block">DOB</span>
-                  <span className="font-bold text-slate-200">{selectedCriminal.dateOfBirth}</span>
+                <div className="p-2.5 bg-[#0F172A] border border-[#1E293B] rounded-xl">
+                  <span className="text-[10px] font-mono text-slate-400 block">DOB</span>
+                  <span className="font-bold text-white">{selectedCriminal.dateOfBirth || '1990-01-01'}</span>
                 </div>
-                <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-                  <span className="text-[10px] font-mono text-slate-500 block">HEIGHT</span>
-                  <span className="font-bold text-slate-200">{selectedCriminal.height}</span>
+                <div className="p-2.5 bg-[#0F172A] border border-[#1E293B] rounded-xl">
+                  <span className="text-[10px] font-mono text-slate-400 block">HEIGHT</span>
+                  <span className="font-bold text-white">{selectedCriminal.height || '6 ft 0 in'}</span>
                 </div>
-                <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-                  <span className="text-[10px] font-mono text-slate-500 block">BUILD</span>
-                  <span className="font-bold text-slate-200">{selectedCriminal.build}</span>
+                <div className="p-2.5 bg-[#0F172A] border border-[#1E293B] rounded-xl">
+                  <span className="text-[10px] font-mono text-slate-400 block">BUILD</span>
+                  <span className="font-bold text-white">{selectedCriminal.build || 'Medium'}</span>
                 </div>
-                <div className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-                  <span className="text-[10px] font-mono text-slate-500 block">GENDER</span>
-                  <span className="font-bold text-slate-200">{selectedCriminal.gender}</span>
+                <div className="p-2.5 bg-[#0F172A] border border-[#1E293B] rounded-xl">
+                  <span className="text-[10px] font-mono text-slate-400 block">GENDER</span>
+                  <span className="font-bold text-white">{selectedCriminal.gender || 'Male'}</span>
+                </div>
+              </div>
+
+              {/* Modus Operandi Details */}
+              <div className="space-y-2">
+                <h4 className="font-mono font-bold text-slate-300">MODUS OPERANDI:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {Array.isArray(selectedCriminal.modusOperandi) && selectedCriminal.modusOperandi.length > 0 ? (
+                    selectedCriminal.modusOperandi.map((mo, i) => (
+                      <span key={i} className="px-3 py-1 bg-[#0F172A] border border-[#1E293B] text-slate-200 rounded-lg">
+                        {mo}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-slate-500 italic">No MO recorded</span>
+                  )}
                 </div>
               </div>
 
               {/* Past Convictions */}
               <div className="space-y-2">
                 <h4 className="font-mono font-bold text-slate-300 flex items-center gap-1.5">
-                  <Award className="w-4 h-4 text-amber-400" />
+                  <Award className="w-4 h-4 text-blue-400" />
                   PAST CRIMINAL CONVICTIONS:
                 </h4>
                 <div className="space-y-1">
-                  {selectedCriminal.pastConvictions.map((c, i) => (
-                    <div key={i} className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-300">
-                      • {c}
+                  {Array.isArray(selectedCriminal.pastConvictions) && selectedCriminal.pastConvictions.length > 0 ? (
+                    selectedCriminal.pastConvictions.map((c, i) => (
+                      <div key={i} className="p-2.5 bg-[#0F172A] border border-[#1E293B] rounded-xl text-slate-300">
+                        • {c}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-2.5 bg-[#0F172A] border border-[#1E293B] rounded-xl text-slate-500 italic">
+                      No prior convictions logged in national database.
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
 
               {/* Known Associates */}
-              {selectedCriminal.knownAssociates.length > 0 && (
+              {Array.isArray(selectedCriminal.knownAssociates) && selectedCriminal.knownAssociates.length > 0 && (
                 <div className="space-y-2">
                   <h4 className="font-mono font-bold text-slate-300 flex items-center gap-1.5">
-                    <Users className="w-4 h-4 text-cyan-400" />
+                    <Users className="w-4 h-4 text-blue-400" />
                     KNOWN ASSOCIATES & SYNDICATE LINKS:
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedCriminal.knownAssociates.map((assoc, i) => (
-                      <span key={i} className="px-3 py-1 bg-slate-950 border border-slate-800 text-slate-200 rounded-lg">
+                      <span key={i} className="px-3 py-1 bg-[#0F172A] border border-[#1E293B] text-slate-200 rounded-lg">
                         {assoc}
                       </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Status Update Quick Controls */}
+              {onUpdateCriminal && (
+                <div className="pt-4 border-t border-[#1E293B] flex items-center justify-between">
+                  <span className="text-slate-400 font-mono">UPDATE LEGAL STATUS:</span>
+                  <div className="flex gap-2">
+                    {(['WANTED', 'IN_CUSTODY', 'UNDER_SURVEILLANCE', 'CLEARED'] as CriminalProfile['status'][]).map((st) => (
+                      <button
+                        key={st}
+                        onClick={() => {
+                          const updated = { ...selectedCriminal, status: st };
+                          onUpdateCriminal(updated);
+                          setSelectedCriminal(updated);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-semibold border cursor-pointer transition-colors ${
+                          selectedCriminal.status === st
+                            ? 'bg-blue-600 text-white border-blue-500'
+                            : 'bg-[#0F172A] text-slate-400 border-[#1E293B] hover:text-white'
+                        }`}
+                      >
+                        {st.replace(/_/g, ' ')}
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -300,16 +388,16 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
 
       {/* Add Criminal Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full shadow-2xl overflow-hidden">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
-              <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-                <Plus className="w-5 h-5 text-amber-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-[#111827] border border-[#1E293B] rounded-2xl max-w-xl w-full shadow-2xl overflow-hidden">
+            <div className="p-5 border-b border-[#1E293B] flex items-center justify-between bg-[#0F172A]">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Plus className="w-5 h-5 text-blue-400" />
                 Add Suspect / Criminal Profile Dossier
               </h3>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800"
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -325,7 +413,7 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                     placeholder="e.g. The Specter"
                     value={codeName}
                     onChange={(e) => setCodeName(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                    className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                   />
                 </div>
                 <div>
@@ -336,7 +424,7 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                     placeholder="e.g. Darian Vance Rostoff"
                     value={legalName}
                     onChange={(e) => setLegalName(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                    className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                   />
                 </div>
               </div>
@@ -348,7 +436,7 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                   placeholder="Cipher, Ghost, Vance"
                   value={aliases}
                   onChange={(e) => setAliases(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                 />
               </div>
 
@@ -358,7 +446,7 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                   <select
                     value={threatLevel}
                     onChange={(e) => setThreatLevel(e.target.value as CriminalProfile['threatLevel'])}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none cursor-pointer"
+                    className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none cursor-pointer"
                   >
                     <option value="EXTREME">Extreme Threat</option>
                     <option value="HIGH">High Threat</option>
@@ -371,11 +459,12 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as CriminalProfile['status'])}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none cursor-pointer"
+                    className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none cursor-pointer"
                   >
                     <option value="WANTED">Wanted</option>
                     <option value="IN_CUSTODY">In Custody</option>
                     <option value="UNDER_SURVEILLANCE">Under Surveillance</option>
+                    <option value="CLEARED">Cleared</option>
                   </select>
                 </div>
               </div>
@@ -387,7 +476,7 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                   placeholder="Signal Jamming, Vault Breaching, Blue Sedan Escape"
                   value={modusOperandi}
                   onChange={(e) => setModusOperandi(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                 />
               </div>
 
@@ -398,21 +487,21 @@ export const CriminalProfileView: React.FC<CriminalProfileViewProps> = ({
                   placeholder="Armed Robbery (2018), Grand Theft Auto (2015)"
                   value={pastConvictions}
                   onChange={(e) => setPastConvictions(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                  className="w-full px-3 py-2 bg-[#0F172A] border border-[#1E293B] rounded-xl text-white outline-none"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex justify-end gap-2">
+              <div className="pt-3 border-t border-[#1E293B] flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl"
+                  className="px-4 py-2 bg-[#0F172A] border border-[#1E293B] text-slate-300 font-semibold rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg"
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-sm transition-colors cursor-pointer"
                 >
                   Save Profile Dossier
                 </button>
