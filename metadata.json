@@ -1,0 +1,6 @@
+{
+  "name": "Smart Crime Analytics Portal (SCAP)",
+  "description": "Centralized crime record management, pattern detection, evidence integrity verification, and analytics system for law enforcement agencies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
