@@ -1,0 +1,62 @@
+# SCAP Spring Boot Microservice Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: scap-crime-analytics-service
+
+  # Cloud Database Configuration: Google Cloud Firestore
+  cloud:
+    gcp:
+      project-id: ${GCP_PROJECT_ID:ai-studio-smartcrimeanalyt-89518bcc-d268-4cfd-bf0b-dd373d0c1316}
+      firestore:
+        database-id: ${FIRESTORE_DATABASE_ID:(default)}
+
+  # Cloud Relational Database Configuration: PostgreSQL / Cloud SQL
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:scap_db}}
+    username: ${SPRING_DATASOURCE_USERNAME:scap_admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:secure_scap_password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Gemini AI / Generative Engine Integration
+scap:
+  ai:
+    gemini-api-key: ${GEMINI_API_KEY:}
+    model: models/gemini-3.7-flash
+  security:
+    jwt-secret: ${JWT_SECRET:scap-enterprise-military-grade-cryptographic-hash-key-2026}
+    jwt-expiration-ms: 86400000
+
+# Actuator Endpoints for Health & Readiness Probes
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+# OpenAPI / Swagger Documentation
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
