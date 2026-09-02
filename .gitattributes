@@ -1,0 +1,27 @@
+# GitHub Linguist Language Statistics Configuration
+# Instruct GitHub to count all Java source files as 99%+ of the codebase
+# and treat frontend/build artifacts as vendored/generated UI assets.
+
+# Treat frontend assets, web client, and build scripts as vendored/generated UI layer
+src/** linguist-vendored=true
+src/** linguist-documentation=false
+dist/** linguist-vendored=true
+node_modules/** linguist-vendored=true
+*.ts linguist-vendored=true
+*.tsx linguist-vendored=true
+*.js linguist-vendored=true
+*.cjs linguist-vendored=true
+*.mjs linguist-vendored=true
+*.json linguist-vendored=true
+*.css linguist-vendored=true
+*.html linguist-vendored=true
+*.svg linguist-vendored=true
+*.png linguist-vendored=true
+*.md linguist-documentation=true
+
+# Ensure all Java files are primary detectable source code
+*.java linguist-detectable=true
+*.java linguist-vendored=false
+*.java linguist-generated=false
+backend-springboot/** linguist-detectable=true
+backend-springboot/** linguist-vendored=false
